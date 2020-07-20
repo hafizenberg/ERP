@@ -1,0 +1,123 @@
+﻿@model ChandrimERP.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Branch.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Branch.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ledger.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ledger.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesAgent.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesAgent.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Warehouse.WarehouseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Warehouse.WarehouseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoiceNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvoiceNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Narration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Narration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalQNT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalQNT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VatAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VatAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoicedAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvoicedAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

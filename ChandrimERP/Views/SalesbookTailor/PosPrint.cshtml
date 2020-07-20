@@ -1,0 +1,222 @@
+﻿@model ChandrimERP.Models.TailorOrder
+
+<style type="text/css" media="print">
+    page {
+        margin: 0 !important;
+        color:black;
+    }
+ </style>
+
+<style >
+         page {
+        margin: 0 !important;
+        
+    }
+
+    page .table > tbody > tr > td {
+       /*padding: 2px 8px;*/
+    }
+
+    page .table > thead > tr > th, page .table > tbody > tr > th, page .table > tfoot > tr > th, page .table > thead > tr > td, page .table > tbody > tr > td, page .table > tfoot > tr > td, page .table td, page .table th {
+        border-top: inherit;
+        border-bottom: inherit;
+        padding:0px;
+    }
+
+    page .table, page .table h5 {
+        margin-bottom: 10px;
+        font-family: 'courier_newregular';
+        font-style: normal;
+        font-weight: 100;
+    }
+    @@page { margin: 0cm 0cm 0cm 0cm; }
+}
+</style>
+<script type="text/javascript">
+ window.onload = function() { window.print(); }
+</script>
+
+<page size="A2">
+    <div>
+        <table class="table table-borderless" style="font-size: 10px; width:40mm; padding-top:15px; ">
+
+            <tr>
+                <td width="100%">
+                    <div class="invoiceNum text-center">
+
+                        <p class="barcode" style="font-size:18px">
+                            *@Html.DisplayFor(model => model.InvoiceNo)*
+                        </p>
+                       
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%" class="text-center">
+                    <h5>
+                        @Html.DisplayFor(model => model.Branch.Company.CompanyName)
+                    </h5>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%" class="text-center">
+                    <span>@Html.DisplayTextFor(model => model.Branch.Company.AddressLineOne)</span>
+                    <span>@Html.DisplayFor(model => model.Branch.Company.Phone)</span> <br />
+                    <span> @Html.DisplayTextFor(model => model.Branch.Company.Email)</span><br />
+                    <span>@Html.DisplayFor(model => model.Branch.Company.WebPage)</span><br />
+                </td>
+            </tr>
+            <tr><td width="100%"><strong>Branch: @Html.DisplayFor(model => model.Branch.BranchName)</strong> </td></tr>
+            <tr>
+                <td width="100%">
+                    <p>
+                        @Html.DisplayNameFor(model => model.InvoiceNo) # @Html.DisplayFor(model => model.InvoiceNo)
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    
+
+    <table class="table table-borderless" style="font-size: 10px; width:40mm">
+        <tr><td width="100%">Date: <span>@if (@Model.OrderDate != null)
+        {@Model.OrderDate.ToString("dd/MM/yyyy")}
+        else
+        {@Html.DisplayFor(Model => Model.OrderDate)}</span> <br /></td></tr>
+        @if (Model.DueDate != null)
+        {
+            <tr><td width="100%">Due Date: <span>@if (@Model.DueDate.Value != null)
+            {@Model.DueDate.Value.ToString("dd/MM/yyyy")}
+            else
+            {@Html.DisplayFor(Model => Model.DueDate)}</span> <br /></td></tr>
+        }
+
+        @if (Model.DeliveryDate != null)
+        {
+            <tr><td width="100%">Delivery Date: <span>@if (@Model.DeliveryDate.Value != null)
+            {@Model.DeliveryDate.Value.ToString("dd/MM/yyyy")}
+            else
+            {@Html.DisplayFor(Model => Model.DeliveryDate)}</span> <br /></td></tr>
+        }
+
+        <tr><td width="100%"><strong>Customer Name:</strong><br> @Html.DisplayFor(model => model.Customer.ContactFirstName) @Html.DisplayFor(model => model.Customer.ContactLastName) <br/>
+        @Html.DisplayFor(model => model.Customer.Phone)<br /> @Html.DisplayTextFor(model => model.Customer.Email) </td></tr>
+    </table>
+
+        @if (Model.SeawingAmount != null )
+        {
+            if (Model.SeawingAmount != 0) {
+
+         
+            @*<h6 class="text-center"><strong>Order Details</strong></h6>*@
+
+            <table class="table table-borderless" style="font-size: 10px; width:40mm">
+                @foreach (var item in Model.SeawingOrderDetails)
+                {
+                    <tr>
+                        <td>
+                            <label> @Html.DisplayNameFor(m => item.TulLong) :</label> @Html.DisplayFor(m => item.TulLong) <br />
+                            <label>  @Html.DisplayNameFor(m => item.ArradBody) :</label>@Html.DisplayFor(m => item.ArradBody)<br />
+                            <label>  @Html.DisplayNameFor(m => item.KocchorWaist) :</label>@Html.DisplayFor(m => item.KocchorWaist)<br />
+                            <label>  @Html.DisplayNameFor(m => item.Ibad) :</label>@Html.DisplayFor(m => item.Ibad)<br />
+
+                            <label> @Html.DisplayNameFor(m => item.Hip) :</label>@Html.DisplayFor(m => item.Hip)<br />
+                            <label> @Html.DisplayNameFor(m => item.KhetabShoulder) :</label>@Html.DisplayFor(m => item.KhetabShoulder)<br />
+                            <label> @Html.DisplayNameFor(m => item.OrdunHand) :</label>@Html.DisplayFor(m => item.OrdunHand)<br />
+                            <label> @Html.DisplayNameFor(m => item.Orgoba) :</label>@Html.DisplayFor(m => item.Orgoba)<br />
+                            <label> @Html.DisplayNameFor(m => item.Throat) :</label>@Html.DisplayFor(m => item.Throat)<br />
+                            <label> @Html.DisplayNameFor(m => item.GherEnclorure) :</label>@Html.DisplayFor(m => item.GherEnclorure)<br />
+
+                            <label> @Html.DisplayNameFor(m => item.Qty) :</label>@Html.DisplayFor(m => item.Qty)<br />
+                            <label> @Html.DisplayNameFor(m => item.Rate) :</label>@Html.DisplayFor(m => item.Rate)<br />
+                            <label> @Html.DisplayNameFor(m => item.TotalAmount) :</label>@Html.DisplayFor(m => item.TotalAmount)<br />
+                        </td>
+                    </tr>
+                }
+            </table>
+            }
+        }
+        @if (Model.TotalAmount != 0)
+        {
+            @*<h6 class="text-center"><strong>Order Details</strong></h6>*@
+            <div style="width:40mm;border-bottom: 1px dashed;margin-bottom:10px"></div>
+            <table class="table table-borderless" style="font-size: 10px;width:40mm;">
+                @foreach (var item in Model.TailorOrderDetail)
+                {
+                    <tr>
+                        <td>
+                          #  @Html.DisplayFor(m => item.Barcode) - @Html.DisplayFor(m => item.Quantity)@Html.DisplayFor(m => item.MeasureUnit) <br />  @Html.DisplayFor(m => item.ProductName)
+                            @if (item.ProductDescription != null)
+                            {
+                                if (item.ProductDescription != "null")
+                                {
+                                    <span> (@Html.DisplayFor(m => item.ProductDescription) )</span>
+                                }
+                            }
+                            <br/> 
+                            <p class="text-right" style="width:100%;">
+                                @Html.DisplayFor(m => item.Rate) X @Html.DisplayFor(m => item.Quantity) = @Html.DisplayFor(m => item.TotalAmount)
+                                @if (item.VAT != null)
+                                {
+                                    if (item.VAT != 0)
+                                    { <strong> VAT </strong> @Html.DisplayFor(m => item.VAT) }
+                                }
+                            </p>                        
+                          
+                           
+                        </td>
+                    </tr>
+                }
+            </table>
+            <div style="width:40mm;border-bottom: 1px dashed; margin:10px 0px"></div>
+        }
+        <table class="table table-borderless" style="font-size: 10px;width:40mm">
+            <tbody>
+    <tr><td><strong>**TOTAL</strong></td></tr>
+    <tr with="100%"><td><strong> @Html.DisplayFor(model => model.TotalQNT) Qty</strong> </td><td class="text-right"> <strong> @Html.DisplayFor(model => model.TotalAmount)</strong></td></tr>
+    @if (Model.SeawingAmount != null)
+    {
+        if (Model.SeawingAmount != 0)
+        {
+                <tr with="100%"><td><label> Seawing Amount : </label></td><td class="text-right"><strong> @Html.DisplayFor(model => model.SeawingAmount)</strong> </td></tr>}
+    }
+    @if (Model.TotalDiscount != null)
+    {
+        if (Model.TotalDiscount != 0)
+        {
+            <tr with="100%"><td><label> Discount : </label></td><td class="text-right"><strong> @Html.DisplayFor(model => model.TotalDiscount)</strong> </td></tr>}
+    }
+    @if (Model.VatAmount != 0)
+    {
+                <tr with="100%"><td><label> VAT Amount : </label></td><td class="text-right"><strong> @Html.DisplayFor(model => model.VatAmount)</strong> </td></tr>}
+    @if (Model.LaseAmount != 0)
+    {
+                <tr with="100%"><td><label> Less Amount : </label></td><td class="text-right"><strong> @Html.DisplayFor(model => model.LaseAmount)</strong> </td></tr>}
+    @if (Model.Addamount != 0)
+    {
+                <tr with="100%"><td><label> Add Amount : </label></td><td class="text-right"><strong> @Html.DisplayFor(model => model.Addamount)</strong> </td></tr>}
+    <tr with="100%"><td><label> <strong> Net Amount : </strong> </label></td><td class="text-right"><strong> @Html.DisplayFor(model => model.InvoicedAmount)</strong> </td></tr>
+    @if (ViewBag.Amount != null)  { <tr><td><label> Pay Amount :</label></td><td  class="text-right">@ViewBag.Amount</td></tr> }
+                     @if (ViewBag.ClosingBalance != null)
+                     {
+                         if (ViewBag.ClosingBalance[0] == '-')
+                         {
+                            <tr with="100%"><td><label> Advanced Amount :</label></td><td  class="text-right">
+                                @ViewBag.ClosingBalance.Replace('-',' ')
+                            </td></tr>}
+                         else
+                         {
+                            <tr with="100%"><td><label> Due Amount :</label></td><td  class="text-right">@ViewBag.ClosingBalance</td></tr>  }
+                     }
+                          
+
+                @if (Model.Narration != null){
+        <tr><td colspan="2" class="text-center"><strong> ** @Html.DisplayFor(model => model.Narration) **</strong> </td></tr>}
+
+</tbody>
+        </table>
+        <div style="font-size: 8px; margin-bottom: 20px; border-bottom: 1px dotted; padding: 10px;">
+            <span>**  Chandrim Soft - 01765400850 **</span>
+        </div>
+    </div>
+</page>

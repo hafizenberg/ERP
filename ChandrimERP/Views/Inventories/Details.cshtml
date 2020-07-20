@@ -1,0 +1,130 @@
+﻿@model ChandrimERP.Models.Inventory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inventory</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Warehouse.WarehouseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Warehouse.WarehouseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BalanceQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BalanceQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AleartLavel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AleartLavel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemMRP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemMRP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemUnitCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemUnitCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemEditionalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemEditionalCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemTotalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemTotalCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemAvrageCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemAvrageCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

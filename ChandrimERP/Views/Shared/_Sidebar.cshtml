@@ -1,0 +1,665 @@
+﻿@using System.Security.Policy
+@using WebHelpers.Mvc5
+<aside class="main-sidebar">
+    <section class="sidebar">
+        @* BEGIN Search *@
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        @* END Search *@
+        @* BEGIN Menu *@
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">HEADER</li>
+            <li>
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-home c-blue"></i> <span>Home</span></a>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-university" aria-hidden="true"></i> <span>Company</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+            </a>
+            <ul class="treeview-menu">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("Index", "Business")"><i class="fa fa-list-alt" aria-hidden="true"></i>Company</a></li>
+                    }
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("CompanyList", "Business")"><i class="fa fa-list-ul" aria-hidden="true"></i>Company List</a></li>
+                    }
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("systemAdmin"))
+                    {
+                        <li><a href="@Url.Action("AddNewBusiness", "Business")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Add New Company</a></li>
+                    }
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("BranchList", "Business")"><i class="fa fa-list-ul" aria-hidden="true"></i>Branch List</a></li>
+                    }
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("AddNewBranch", "Business")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i> Add New Branch </a></li>
+                    }
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("WarehouseList", "Business")"><i class="fa fa-list-ul" aria-hidden="true"></i> Warehouse List</a></li>
+                    }
+                }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("companyAdmin"))
+                        {
+                    <li><a href="@Url.Action("AddNewWarehouse", "Business")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i> Add New Warehouse </a></li>
+                         }
+                     }
+                </ul>
+            </li>
+    
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("acc_received") || User.IsInRole("companyAdmin") || User.IsInRole("acc_paymen") || User.IsInRole("systemAdmin") || User.IsInRole("acc_journal") || User.IsInRole("acc_contra") || User.IsInRole("acc_index") || User.IsInRole("acc_ledgerlist") || User.IsInRole("acc_ledgerdetails"))
+    {
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-money" aria-hidden="true"></i><span>Account</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_received") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Received", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Received Voucher</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_paymen") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Payment", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Payment Voucher</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_journal") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Journal", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Journal Voucher</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_contra") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Contra", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Contra Voucher</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_createledger") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("CreateLedger", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create Ledger</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("led_cat_create") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Create", "LedgerCategories")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create Ledger Category</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("cha_o_a_create") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Create", "ChartOfAccounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create Chart Of Accounts</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_index") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Index", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Report</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_ledgerlist") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("LedgerList", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Ledger Report</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("acc_ledgerdetails") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Ledgerdetails", "Accounts")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Ledger Details Report</a></li>}
+                    }
+                         @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("companyAdmin"))
+                        {
+                    <li><a href="@Url.Action("Index", "Report")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Profit & Loss</a></li>}
+                    }
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-briefcase" aria-hidden="true"></i> <span>Easy Account</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if ( User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SupplierPayment", "EasyAccount")"><i class="fa fa-list-alt" aria-hidden="true"></i>Supplier Payment</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if ( User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Receivd", "EasyAccount")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Receivd from Customer</a></li>}
+                        if (User.IsInRole("companyAdmin"))
+                        {
+                        <li><a href="@Url.Action("Expenses", "EasyAccount")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Expenses</a></li>}
+                    }
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("sup_index") || User.IsInRole("sup_create") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-briefcase" aria-hidden="true"></i> <span>Supplier</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sup_index") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Index", "Suppliers")"><i class="fa fa-list-alt" aria-hidden="true"></i>Supplier List</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sup_create") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Create", "Suppliers")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create New Supplier</a></li>}
+                    }
+                        </ul>
+                    </li>
+                }
+            }
+            @*<li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-telegram" aria-hidden="true"></i> <span>Service</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index", "Services")"><i class="fa fa-list-alt" aria-hidden="true"></i>Service List</a></li>
+                        <li><a href="@Url.Action("Create", "Services")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create New Service</a></li>
+                    </ul>
+                </li>*@
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("pro_index") || User.IsInRole("pro_create") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-shopping-basket" aria-hidden="true"></i> <span>Product</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("pro_index") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Index", "Products")"><i class="fa fa-list-alt" aria-hidden="true"></i>Product List</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("pro_create") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Create", "Products")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create Product </a></li>}
+                    }
+                            <li><a href="@Url.Action("BarcodeIndex", "Products")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Product Barcode Index</a></li><!--
+                            <li><a href="@Url.Action("Create", "ProductMeasureUnits")">Create Product Measure Units</a></li>
+                            <li><a href="@Url.Action("Index", "ProductCategories")"> Product Categories List</a></li>
+                            <li><a href="@Url.Action("Create", "ProductCategories")">Create New Product Categories</a></li>
+                            <li><a href="@Url.Action("Index", "ProductSubCategories")"> Product Sub Categories List</a></li>
+                            <li><a href="@Url.Action("Create", "ProductSubCategories")">Create New Product Sub Categories</a></li>
+                            <li><a href="@Url.Action("Index", "ProductBrands")"> Product Brands List</a></li>
+                            <li><a href="@Url.Action("Create", "ProductBrands")">Create New Product Brands</a></li>
+                            <li><a href="@Url.Action("Index", "ProductRacks")"> Product Racks List</a></li>
+                            <li><a href="@Url.Action("Create", "ProductRacks")">Create New Product Racks</a></li>-->
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("inv_index") || User.IsInRole("inv_Inventory") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-shopping-basket" aria-hidden="true"></i> <span>Inventory</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("inv_index") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Index", "Inventory")"><i class="fa fa-list-alt" aria-hidden="true"></i>Inventory</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("inv_Inventory") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Inventory", "Inventory")"><i class="fa fa-list-alt" aria-hidden="true"></i>Details</a></li>}
+                    }
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("cus_index") || User.IsInRole("cus_create") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-users" aria-hidden="true"></i> <span>Customer</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("cus_index") || User.IsInRole("companyAdmin"))
+                        {
+                    <li><a href="@Url.Action("Index", "Customers")"><i class="fa fa-list-alt" aria-hidden="true"></i>Customer List</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("cus_create") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Create", "Customers")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create New Customer</a></li>}
+                    }
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("ord_salesorder") || User.IsInRole("ord_purchaseorder") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-truck" aria-hidden="true"></i> <span>Order</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("ord_salesorder") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesOrder", "Order")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Order</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("ord_purchaseorder") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("PurchaseOrder", "Order")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Purchase Order</a></li>}
+                    }
+                            @*<li><a href="@Url.Action("tailorOrder", "Order")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Tailor Order</a></li>*@
+                        </ul>
+                    </li>
+                }
+            }
+            @*@if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("sal_b_salesinvoicereport") || User.IsInRole("sal_b_salesinvoice") || User.IsInRole("sal_b_salesorder") || User.IsInRole("sal_b_salesreturn") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-truck" aria-hidden="true"></i> <span>Sales Book</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sal_b_salesinvoicereport") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesInvoiceReport", "Salesbook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Report</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sal_b_salesinvoice") || User.IsInRole("companyAdmin"))
+                        {
+                    <li><a href="@Url.Action("SalesInvoice", "Salesbook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Invoice</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sal_b_salesorder") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesOrder", "Salesbook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Order</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sal_b_salesreturn") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesReturn", "Salesbook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Return</a></li>}
+                    }
+
+                            @*<li><a href="@Url.Action("tailorOrder", "Order")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Tailor Invoice</a></li>
+                        </ul>
+                    </li>
+                }
+            }*@
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("sal_b_t_salesinvoicereport") || User.IsInRole("sal_b_t_salesinvoice") || User.IsInRole("systemAdmin") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-truck" aria-hidden="true"></i> <span>Sales Book ( Tailor )</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sal_b_t_salesinvoicereport") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesInvoiceReport", "SalesbookTailor")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Report</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("sal_b_t_salesinvoice") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesInvoice", "SalesbookTailor")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Invoice</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if ( User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SeawingInvoice", "SalesbookTailor")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Seawing Invoice</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("seawing", "SalesbookTailor")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Seawing</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("SalesReturn", "SalesbookTailor")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Sales Return</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("PosInterface", "SalesbookTailor")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>POS Interface</a></li>}
+                    }
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("pur_b_purchaseinvoice") || User.IsInRole("pur_b_purchaseorder") || User.IsInRole("pur_b_purchasereturn") || User.IsInRole("companyAdmin") || User.IsInRole("pur_b_purchaseinvoicereport"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-truck" aria-hidden="true"></i> <span>Purchase Book</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("pur_b_purchaseinvoicereport") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("PurchaseInvoiceReport", "Purchasebook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Purchase Report</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("pur_b_purchaseinvoice") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("PurchaseInvoice", "Purchasebook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Purchase Invoice</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("pur_b_purchaseorder") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("PurchaseOrder", "Purchasebook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Purchase Order</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("pur_b_purchasereturn") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("PurchaseReturn", "Purchasebook")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Purchase Return</a></li>}
+                    }
+                            @*<li><a href="@Url.Action("ServiceOrder", "Order")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Service Invoice</a></li>
+                                <li><a href="@Url.Action("tailorOrder", "Order")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Tailor Invoice</a></li>*@
+                        </ul>
+                    </li>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("emp_employee") || User.IsInRole("emp_index") || User.IsInRole("companyAdmin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-user" aria-hidden="true"></i><span>Employee</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("emp_employee") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Employee", "Employees")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Employee</a></li>}
+                    }
+                            @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("emp_index") || User.IsInRole("companyAdmin"))
+                        {
+                                    <li><a href="@Url.Action("Index", "Employees")"><i class="fa fa-list-alt" aria-hidden="true"></i>Employee List</a></li>}
+                    }
+                            <!--<li><a href="@Url.Action("Create", "Employees")">Create New Employee</a></li>
+                            <li><a href="@Url.Action("Index", "EmployeePersionalInfoes")">Employee Persional Infoes List</a></li>
+                            <li><a href="@Url.Action("Create", "EmployeePersionalInfoes")">Create New Employee Persional Infoes</a></li>
+                            <li><a href="@Url.Action("Index", "EmployeePropInfoes")">Employee Prop Infoes List</a></li>
+                            <li><a href="@Url.Action("Create", "EmployeePropInfoes")">Create New Employee Prop Infoes</a></li>
+                            <li><a href="@Url.Action("Index", "EmployeeNomineeInfoes")">Employee Nominee Infoes List</a></li>
+                            <li><a href="@Url.Action("Create", "EmployeeNomineeInfoes")">Create New Employee Nominee Infoes</a></li>
+                            <li><a href="@Url.Action("Index", "EmployeePayrollPolicies")">Employee Payroll Policies List</a></li>
+                            <li><a href="@Url.Action("Create", "EmployeePayrollPolicies")">Create New Employee Payroll Policies</a></li>-->
+                        </ul>
+                    </li>
+                    }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    if (User.IsInRole("fix_a_index") || User.IsInRole("fix_a_create") || User.IsInRole("fix_a_c_create") || User.IsInRole("companyAdmin"))
+    {
+        
+                    <li class="treeview">
+            <a href="#">
+                <i class="fa fa-gg-circle" aria-hidden="true"></i><span>Fixed Assets</span>
+                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+            </a>
+            <ul class="treeview-menu">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("fix_a_index") || User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("Index", "FixedAssets")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Fixed Asset</a></li>}
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("fix_a_create") || User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("Create", "FixedAssets")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create Fixed Asset</a></li>}
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("fix_a_c_create") || User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("Create", "FixedAssetCategories")"><i class="fa fa-plus-square c-red" aria-hidden="true"></i>Create Fixed Asset Category</a></li>}
+                }
+
+            </ul>
+        </li>
+       
+    }
+}
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("fil_index") || User.IsInRole("fil_uploadsfile") || User.IsInRole("companyAdmin"))
+    {
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-gg-circle" aria-hidden="true"></i><span>Document</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("fil_index") || User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("Index", "File")"><i class="fa fa-book" aria-hidden="true"></i>Document List</a></li>}
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("fil_uploadsfile") || User.IsInRole("companyAdmin"))
+                    {
+                        <li><a href="@Url.Action("UploadFiles", "File")"><i class="fa fa-book" aria-hidden="true"></i>Add Document</a></li>}
+                }
+            </ul>
+        </li>
+    }
+}
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("dre_m_index") || User.IsInRole("dre_m_create") || User.IsInRole("companyAdmin"))
+    {
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-gg-circle" aria-hidden="true"></i><span>Dress Model</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("dre_m_index") || User.IsInRole("companyAdmin"))
+                        {
+                        <li><a href="@Url.Action("Index", "DressModels")"><i class="fa fa-book" aria-hidden="true"></i>DressModel List</a></li>}
+                    }
+
+                @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("dre_m_create") || User.IsInRole("companyAdmin"))
+                        {
+                        <li><a href="@Url.Action("Create", "DressModels")"><i class="fa fa-book" aria-hidden="true"></i>Add DressModel</a></li>}
+                    }
+            </ul>
+        </li>
+    }
+}
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("systemAdmin") || User.IsInRole("companyAdmin"))
+    {
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-gg-circle" aria-hidden="true"></i><span>System Setting</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("systemAdmin"))
+                        {
+                    <li><a href="@Url.Action("Registation", "Account")"><i class="fa fa-book" aria-hidden="true"></i>Add New Company User</a></li>}
+                    }
+                @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("systemAdmin") || User.IsInRole("companyAdmin"))
+                        {
+                    <li><a href="@Url.Action("AddUser", "Account")"><i class="fa fa-book" aria-hidden="true"></i>Add New User</a></li>}
+                    }
+                @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("systemAdmin") || User.IsInRole("companyAdmin"))
+                        {
+                    <li><a href="@Url.Action("Setrole", "Account")"><i class="fa fa-book" aria-hidden="true"></i>User Role Set</a></li>}
+                    }
+            </ul>
+        </li>
+    }
+}
+</ul>
+@* END Menu *@
+</section>
+</aside>

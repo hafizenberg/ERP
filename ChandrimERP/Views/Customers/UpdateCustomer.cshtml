@@ -1,0 +1,302 @@
+﻿@model ChandrimERP.Models.Customer
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .cus i {
+        color: #FFF;
+    }
+
+    @@media (min-width: 768px) {
+        .form-horizontal .control-label {
+            padding-top: 0px;
+        }
+    }
+</style>
+<div class="container cus">
+    @using (Html.BeginForm(null, null, FormMethod.Post,new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card-style">
+            <div class="card-style-header">
+                <h4>Update Customer</h4>
+            </div>
+            <div class="card-style-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.DropDownList("CompanyId", null, "Select Company List", htmlAttributes: new { @class = "form-control",@readonly="readonly"})
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.HiddenFor(model => model.CustomerId, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.OpeningBlance, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.OpeningBlance, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.OpeningBlance, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.BlanceLimit, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.BlanceLimit, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.BlanceLimit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.ContactFirstName, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ContactFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.ContactLastName, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ContactLastName, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EnumDropDownListFor(model => model.Genders, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.WebPage, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.WebPage, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.WebPage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-globe"></i>
+                                    </span>
+                                   @Html.EditorFor(m => m.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-globe"></i>
+                                    </span>
+                                    @Html.EditorFor(m => m.State, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-globe"></i>
+                                    </span>
+                                    @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.TinNumber, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.TinNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.TinNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.NationalId, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.NationalId, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NationalId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.AddressLineOne, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-map-marker"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.AddressLineOne, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.AddressLineOne, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.AddressLineTwo, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-map-marker"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.AddressLineTwo, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.AddressLineTwo, "", new { @class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @{
+                                var imagePath = "";
+                                imagePath = Url.Content(Model.ImageUrl);
+                            }
+                            @if (imagePath != "")
+                            {
+                                <img src="@imagePath" class="avatar img-thumbnail" alt="avatar" style="width: 80%; height: auto; margin-bottom: 20px;">
+                            }
+                            <div id="alert" style="width: 80%;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="file" class="text-center center-block file-upload" name="imageUpload" accept="image/*" id="file" data-file_types="png|jpg|jpeg" />
+                                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+                                @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-map-marker"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Status)
+                                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="card-style-footer">
+
+                <div class="btn-group right">
+                    <input type="submit" value="Update" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+                                }
+    <div class="clearfix"></div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            customerCreate();
+        });
+    </script>
+}

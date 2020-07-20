@@ -1,0 +1,58 @@
+﻿@model ChandrimERP.Models.CountryAndStateVM
+{    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel panel-body" style="min-height:256px">
+
+
+    <div class="col-md-9">
+
+        @Html.DropDownListFor(m => m.Country, new SelectList(""), "--Select State--", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.State, new SelectList(""), "--Select State--", new { @class = "form-control" })
+
+
+    </div>
+
+</div>
+@section Scripts
+{
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Country/GetCountryList",
+            contentType: "application/json; charset=utf-8",
+            datatype: 'json',
+            success: function (response) {
+                $("#Country").empty();
+                $("#Country").append(response);
+            },
+            error: function (data) { }
+        });
+    });
+
+    $(document).ready(function() {
+
+        $("#Country").change(function() {
+
+            var countryId = $(this).val();
+            $.ajax({
+                type: "Post",
+                url: "/Country/GetStateList?CountryId=" + countryId,
+                contentType: "html",
+                success: function(response) {
+                    $("#State").empty();
+                    $("#State").append(response);
+
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
+}

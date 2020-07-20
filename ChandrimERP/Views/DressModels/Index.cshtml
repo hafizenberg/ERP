@@ -1,0 +1,116 @@
+﻿
+<style>
+    .dataTables_length label {
+        margin-top: 15px;
+        color: #000080;
+    }
+
+    .Button {
+        padding: 5px 10px;
+        margin: 5px;
+        background-color: #4b0082;
+        color: White;
+        border-radius: 15%;
+    }
+
+        .Button:hover {
+            background-color: #00bfff;
+            color: white;
+        }
+
+    .table-1 {
+        color: #00008b;
+        font-weight: bold;
+        float: left;
+    }
+
+        .table-1 tr {
+            float: left;
+        }
+
+    .dataTables_filter input {
+        padding: 5px 2px;
+        border-radius: 5px;
+    }
+
+    #my_table th {
+        background-color: #d2d6de;
+        color: black;
+    }
+
+    .dt-buttons {
+        float: left;
+    }
+
+    td.details-control {
+        background: url('https://cdn.rawgit.com/DataTables/DataTables/6c7ada53ebc228ea9bc28b1b216e793b1825d188/examples/resources/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('https://cdn.rawgit.com/DataTables/DataTables/6c7ada53ebc228ea9bc28b1b216e793b1825d188/examples/resources/details_close.png') no-repeat center center;
+    }
+</style>
+
+<table id="my_table" class="display">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Note</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.18/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+@section scripts{
+    <script src="~/Content/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#my_table").DataTable({
+                "ajax": {
+                    "url": "/DressModels/GetDressModelList",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "D_Image",
+                        "render": function (data, type, row) {
+                            var img = data;
+                            var res = img.substring(2);
+                            var url = '@Url.Content("~/")';
+                            return '<a href="' + url + res + '"><img style="width: 35px; height: 35px;" src="' + url + res + '"/></a>';
+                        }
+                    },
+                    { "data": "D_Name" },
+                    { "data": "D_Note" },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a style="color:#00a65a;" href="/DressModels/Details/' + full.D_id + '"><i class="fa fa-sign-in"></i>';
+                        }
+                    }
+                ],
+                "order": [[1, 'asc']]
+            });
+        });
+
+
+
+    </script>
+}

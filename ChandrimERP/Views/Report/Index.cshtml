@@ -1,0 +1,5 @@
+﻿
+<table class="table table-bordered">
+    <tr><th>Company Name</th><th>Start Date</th><th>End Date</th><th></th></tr>
+        <tr><td>@Html.DropDownList("CompanyName", ViewBag.CompanyName as SelectList, htmlAttributes: new { @class = "form-control", @id = "LIDS" })</td><td><input name="checkinDate" type="date" id="dateformDate" required/></td><td><input type="date" id="datetoDatae" required/></td><td><a href="#" class="btn btn-outline-primary button button4" onclick="window.location.href='@Url.Action("ProfitAndLoss", "Report")' + '?id=' + $('#LIDS').val()+'&dateformDate=' + $('#dateformDate').val()+'&datetoDatae=' + $('#datetoDatae').val()">Show</a></td></tr>
+</table>

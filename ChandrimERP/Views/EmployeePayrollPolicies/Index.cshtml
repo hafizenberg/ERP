@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ChandrimERP.Models.EmployeePayrollPolicy>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PpolicyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ppay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pstatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paccount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees.EmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PpolicyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ppay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pstatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Paccount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

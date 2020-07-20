@@ -1,0 +1,302 @@
+﻿@model ChandrimERP.Models.AddBussinessVM
+@{
+    ViewBag.Title = "Add New Business";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+<div class="row">
+    <div class="col-md-2">
+
+    </div>
+<div class="col-md-8">
+<div class="wizard">
+<div class="wizard-inner">
+    <div class="connecting-line"></div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                <span class="round-tab">
+                                <i class="glyphicon glyphicon-home"></i>
+                            </span>
+            </a>
+        </li>
+        <li role="presentation" class="disabled">
+            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                <span class="round-tab">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                            </span>
+            </a>
+        </li>
+        <li role="presentation" class="disabled">
+            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                <span class="round-tab">
+                                <i class="glyphicon glyphicon-picture"></i>
+                            </span>
+            </a>
+        </li>
+        <li role="presentation" class="disabled">
+            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                <span class="round-tab">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </span>
+            </a>
+        </li>
+    </ul>
+</div>
+@using (Html.BeginForm(null, null, FormMethod.Post,
+    new {enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+    <div class="tab-content">
+    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+    @if (ViewBag.Message == null)
+    {
+
+    }
+    else
+    {
+        <div class="alert alert-danger alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> @ViewBag.Message
+        </div>
+    }
+    <div class="tab-pane active" role="tabpanel" id="step1">
+        <h3 class="head text-center">Welcome to <strong>CHANDRIM</strong>ERP <sup>™</sup> <span style="color: #f48260;">♥</span></h3>
+        <p class="text-center">
+            Dear, Thnks to use <strong>CHANDRIM</strong>ERP, Please have need to create a company.
+        </p>
+        <ul class="list-inline text-center">
+            <li><button type="button" class="btn btn-success btn-outline-rounded green next-step">Start New Business <span style="margin-left: 10px;" class="glyphicon glyphicon-send"></span></button></li>
+        </ul>
+    </div>
+    <div class="tab-pane" role="tabpanel" id="step2" style="padding-top: 0px;">
+
+        <div class="row">
+            <div class="card-style-body">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                           @Html.DropDownListFor(m=>m.UserId,(IEnumerable<SelectListItem>)ViewBag.Userlist,"Select User", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.CompanyName, new {htmlAttributes = new {@class = "form-control", @placeholder = "Company Name"}})
+                            @Html.ValidationMessageFor(model => model.CompanyName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.BranchName, new {htmlAttributes = new {@class = "form-control", @placeholder = "Branch Name"}})
+                            @Html.ValidationMessageFor(model => model.BranchName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.WarehouseName, new {htmlAttributes = new {@class = "form-control", @placeholder = "Warehouse Name"}})
+                            @Html.ValidationMessageFor(model => model.WarehouseName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@class = "form-control", @placeholder = "Email Address"}})
+                            @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.WebPage, new {htmlAttributes = new {@class = "form-control", @placeholder = "Web Address"}})
+                            @Html.ValidationMessageFor(model => model.WebPage, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.VatInformation, new {htmlAttributes = new {@class = "form-control", @placeholder = "VAT Information"}})
+                            @Html.ValidationMessageFor(model => model.VatInformation, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EnumDropDownListFor(model => model.FinancialYearStart, htmlAttributes: new {@class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.FinancialYearStart, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EnumDropDownListFor(model => model.BusinessType, htmlAttributes: new {@class = "form-control",})
+                            @Html.ValidationMessageFor(model => model.BusinessType, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.AddressLineOne, new {htmlAttributes = new {@class = "form-control", @placeholder = "Address Line One"}})
+                            @Html.ValidationMessageFor(model => model.AddressLineOne, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.AddressLineTwo, new {htmlAttributes = new {@class = "form-control", @placeholder = " Address Line Two"}})
+                            @Html.ValidationMessageFor(model => model.AddressLineTwo, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        @{
+                            var imagePath = "";
+                            imagePath = Url.Content(Model.CompanyLogo);
+                        }
+                        @if (imagePath != "")
+                        {
+                            <img src="@imagePath" class="avatar img-thumbnail" alt="avatar" style="width: 100%; height: auto; margin-bottom: 20px;">
+                        }
+                        <div id="alert" style="width: 80%;"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="file" class="text-center center-block file-upload" name="ImageUpload" accept="image/*" id="file" data-file_types="png|jpg|jpeg"/>
+                            @Html.ValidationMessageFor(model => model.CompanyLogo, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+        <div class="card-style-footer">
+            <div class="btn-group right">
+                <button type="button" class="btn btn-default prev-step">Previous</button>
+                <button type="button" class="btn btn-primary next-step">Save and continue</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+            <div class="clearfix"></div>
+        </div>
+    <div class="tab-pane" role="tabpanel" id="step3" style="padding-top: 0px;">
+        <div class="card-style-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ContactFirstName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ContactFirstName, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.ContactFirstName, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ContactLastName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ContactLastName, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.ContactLastName, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label" })
+                        @Html.EnumDropDownListFor(model => model.Genders, htmlAttributes: new {@class = "form-control",})
+                        @Html.ValidationMessageFor(model => model.Genders, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Phone, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.Phone, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.Country, new SelectList(""), "Country", new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.Country, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.State, new SelectList(""), "State", new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.State, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.City, new SelectList(""), "City", new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.City, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Notes, htmlAttributes: new {@class = "control-label"})
+                        @Html.EditorFor(model => model.Notes, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.Notes, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-12">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Status)
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new {@class = "control-label"})
+                            @Html.ValidationMessageFor(model => model.Status, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="card-style-footer">
+            <div class="btn-group right">
+                    <button type="button" class="btn btn-default prev-step">Previous</button>
+                    <button type="button" class="btn btn-default next-step">Skip</button>
+                   <button type="button" class="btn btn-primary btn-info-full next-step">Save and continue</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        </div>
+    <div class="tab-pane" role="tabpanel" id="complete">
+        <ul class="list-inline text-center">
+            <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+            <li><button type="button" class="btn btn-default next-step">Skip</button></li>
+            <li><input type="submit" value="Create A New Business" class="btn btn-default "/></li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+    </div>
+    </div>
+}
+</div>
+</div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            businessAddNewBusiness();
+        });
+    </script>
+}

@@ -1,0 +1,148 @@
+﻿@model ChandrimERP.Models.Document
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container cus">
+   @using (Html.BeginForm(null, null, FormMethod.Post,
+             new { enctype = "multipart/form-data" }))
+   {
+    @Html.AntiForgeryToken()
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card-style">
+                <div class="card-style-body">
+                    <div class="form-horizontal">
+                        <h4>Document</h4>
+                        <hr/>
+                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                        <div class="col-md-12">
+                            @{
+                                var imagePath = "";
+                                imagePath = Url.Content(Model.DocumentPath);
+                            }
+                            @if (imagePath != "")
+                            {
+                                <img src="@imagePath" class="avatar img-thumbnail" alt="avatar" style="width: 40%; height: auto; margin-bottom: 20px; float: right;">
+                            }
+                            <div id="alert" style="width: 80%;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="file" style="float: right;"class="text-center center-block file-upload" name="imageUpload" accept="image/*" id="file" data-file_types="png|jpg|jpeg" />
+                                @Html.ValidationMessageFor(model => model.DocumentPath, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CompanyId, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.DropDownList("CompanyId", null, htmlAttributes: new {@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentCode, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentCode, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.DocumentCode, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentName, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentName, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.DocumentName, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentAccessCount, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentAccessCount, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.DocumentAccessCount, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentDetails, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentDetails, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.DocumentDetails, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EXPDate, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.EXPDate, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.EXPDate, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UpdateDate, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.UpdateDate, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.UpdateDate, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group" style="float: right;">
+                            <div class="col-md-12">
+                                <input type="submit" value="Create" class="btn btn-default"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    }
+</div>
+@section Scripts
+{
+    <script>
+        /* File Upload validate*/
+        $('#file').on('change', function () {
+            var numb = $(this)[0].files[0].size / 1024 / 1024; //count file size
+            var resultid = $(this).val().split(".");
+            var gettypeup = resultid[resultid.length - 1]; // take file type uploaded file
+            var filetype = $(this).attr('data-file_types'); // take allowed files from input
+            var allowedfiles = filetype.replace(/\|/g, ', '); // string allowed file
+            var filesize = 2; //2MB
+            var onlist = $(this).attr('data-file_types').indexOf(gettypeup) > -1;
+            var checkinputfile = $(this).attr('type');
+            numb = numb.toFixed(2);
+
+            if (onlist && numb <= filesize) {
+                $('#alert').html('The file is ready to upload').removeAttr('class').addClass('xd2'); //file OK
+            } else {
+                if (numb >= filesize && onlist) {
+                    $(this).val(''); //remove uploaded file
+                    $('#alert').html('Added file is too big \(' + numb + ' MB\) - max file size ' + filesize + ' MB').removeAttr('class').addClass('xd'); //alert that file is too big, but type file is ok
+                } else if (numb < filesize && !onlist) {
+                    $(this).val(''); //remove uploaded file
+                    $('#alert').html('An not allowed file format has been added \(' + gettypeup + ') - allowed formats: ' + allowedfiles).removeAttr('class').addClass('xd'); //wrong type file
+                } else if (!onlist) {
+                    $(this).val(''); //remove uploaded file
+                    $('#alert').html('An not allowed file format has been added \(' + gettypeup + ') - allowed formats: ' + allowedfiles).removeAttr('class').addClass('xd'); //wrong type file
+                }
+            }
+        });
+        /* File upload preview*/
+        $(document).ready(function () {
+            var readUrl = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('.avatar').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $(".file-upload").on('change', function () {
+                readUrl(this);
+            });
+        });
+
+    </script>
+}

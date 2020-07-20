@@ -1,0 +1,101 @@
+﻿@using System.Web.UI.WebControls
+@using GridMvc.Html
+@model IEnumerable<ChandrimERP.Models.SalesInvoiceReportVM>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid grid = new WebGrid(source: Model, canSort: false,rowsPerPage:10);
+    var mas = ViewBag.mass;
+}
+<style>
+    th, td {
+        padding: 5px;
+    }
+
+    th {
+        background-color: rgb(248, 248, 248);
+    }
+
+    #gridT, #gridT tr {
+        border: 1px solid #0D857B;
+    }
+
+    #subT, #subT tr {
+        border: 1px solid #f3f3f3;
+    }
+
+    #subT {
+        margin: 0px 0px 0px 10px;
+        padding: 5px;
+        width: 95%;
+    }
+
+        #subT th {
+            font-size: 12px;
+        }
+
+    .hoverEff {
+        cursor: pointer;
+    }
+
+
+    .expand {
+        background-image: url(../image/componant/expand_icon.png);
+        width: 15px;
+        height: 32px;
+        background-position-x: -16px;
+        background-repeat: no-repeat;
+        background-position-y: 5px;
+    }
+
+    .collapse {
+        background-image: url(../image/componant/expand_icon.png);
+        width: 16px;
+        height: 32px;
+        background-position-x: 0px;
+        background-repeat: no-repeat;
+        background-position-y: 5px;
+    }
+</style>
+<div style="float:right;padding-right: 25px;padding-bottom: 5px;padding-top: 10px;"><input type="text" id="search" placeholder="live search"></input></div>
+<div id="main" style="padding:25px; background-color:white;">
+    @grid.GetHtml(
+                htmlAttributes: new { id = "gridT", width = "100%" },
+                columns: grid.Columns(
+                        grid.Column("order.InvoiceNo", "Invoice No"),
+                        grid.Column("order.Customer.CompanyName", "Customer Name"),
+                        grid.Column("order.Branch.BranchName", "Branch Name"),
+                        grid.Column("order.Warehouse.WarehouseName", "Warehouse Name"),
+                       // grid.Column("Order.Branch.Com", "User Name"),
+                        grid.Column("order.TotalQNT", "Total QNT"),
+                        grid.Column("order.InvoicedAmount", "Invoiced Amount"),
+                         grid.Column(header: "DETAILS", format: (item) => Html.ActionLink("Details", "Details", new { id = item.Order.Id })),
+
+                    grid.Column(format: (item) =>
+                    {
+                        WebGrid subGrid = new WebGrid(source: item.orderdetail);
+                        return subGrid.GetHtml(
+                            htmlAttributes: new { id = "subT" },
+                            columns: subGrid.Columns(
+                                    subGrid.Column("ProductName", "Product Name"),
+                                    subGrid.Column("Quantity", "QTN"),
+                                    subGrid.Column("Rate", "Rate"),
+                                    subGrid.Column("MeasureUnit", "Per"),
+                                    subGrid.Column("BonusQuantity", "Bonus Quantity"),
+                                    subGrid.Column("TotalAmount", "Total Amount")
+                                )
+                            );
+                    })
+                    )
+                )
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            salesbookSalesInvoiceReport();
+        });
+    </script>
+}

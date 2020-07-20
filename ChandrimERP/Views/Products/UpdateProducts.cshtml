@@ -1,0 +1,566 @@
+﻿@model ChandrimERP.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .cus i {
+        color: #FFF;
+    }
+
+    @@media (min-width: 768px) {
+        .form-horizontal .control-label {
+            padding-top: 0px;
+        }
+    }
+</style>
+
+
+<div class="container cus">
+    @using (Html.BeginForm(null, null, FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card-style">
+            <div class="card-style-header">
+                <h4>Update Product</h4>
+            </div>
+            <div class="card-style-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("CompanyId", null, "Select Your Company", htmlAttributes: new {@class = "form-control companyList"})
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer">
+
+                                @Html.HiddenFor(model => model.ProductId, new { htmlAttributes = new { @class = "form-control" } })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" ,@id="barcode",@readonly="readonly"} })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.BatchOrSerial, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.BatchOrSerial, new { htmlAttributes = new { @class = "form-control",@readonly="readonly" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.BatchOrSerial, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" ,@readonly="readonly"} })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ModelName, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ModelName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ModelName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("SupplierId", null, "Select Supplier Name", htmlAttributes: new { @class = "form-control supplierlist",@readonly="readonly"})
+                                </div>
+                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("ProductCategoryId", null, " Select Product Category ", htmlAttributes: new { @class = "form-control prcateList", @id = "ProductCategoryId" })
+                                    <button id="btnShowModalProductCategory" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("ProductSubCategoryId", null, " Select Product SubCategory", htmlAttributes: new { @class = "form-control" })
+                                    <button id="btnShowModalProductSubCategory" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductCategory.ProductSubCategory, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("ProductMeasureUnitId", null, " Select Product Measurement Unit", htmlAttributes: new { @class = "form-control prmeaunit"})
+                                    <button id="btnShowModalMeasurement" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductMeasureUnitId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("ProductBrandId", null, " Select Product Brand ", htmlAttributes: new { @class = "form-control prbrand" })
+                                    <button id="btnShowModalProductBrand" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductBrandId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    @Html.DropDownList("ProductRackId", null, " Select Product Rack ", htmlAttributes: new { @class = "form-control prrack" })
+                                    <button id="btnShowModalProductRack" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductRackId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductType, new { htmlAttributes = new { @class = "form-control"} })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductSize, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductSize, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductSize, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductColor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductWeight, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductWeight, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductWeight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+
+                                    @Html.DropDownList("warehouseId", null, "Select Your Warehouse", htmlAttributes: new { @class = "form-control warehouseList", @readonly = "readonly" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductQuantity, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductQuantity, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductQuantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductVolume, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductVolume, new { htmlAttributes = new { @class = "form-control"} })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductVolume, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control"} })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductUnitCost, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductUnitCost, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductUnitCost, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductManufacture, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductManufacture, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductManufacture, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @{
+                                var imagePath = "";
+                                imagePath = Url.Content(Model.ImageUrl);
+                            }
+                            @if (imagePath != "")
+                            {
+                                <img src="@imagePath" class="avatar img-thumbnail" alt="avatar" style="width: 100%; height: auto; margin-bottom: 20px;">
+                            }
+                            <div id="alert" style="width: 100%;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="file" class="text-center center-block file-upload" name="ImageUpload" accept="image/*" id="file" data-file_types="png|jpg|jpeg" />
+                                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0px;">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductManufactureDate, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.ProductManufactureDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Product Manufacture Date" } })
+                               
+                                @Html.ValidationMessageFor(model => model.ProductManufactureDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" style="margin-bottom: 0px;">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductExpireDate, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.ProductExpireDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Product Expire Date" } })
+                                @Html.ValidationMessageFor(model => model.ProductExpireDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Vat, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.Vat, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Vat, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                                <div class="d-flex">
+                                    <span class="input-group-addon cuspadding">
+                                        <i class="fa fa-pencil"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Status)
+                                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-style-footer">
+                <div class="btn-group right">
+                    <input type="submit" value="Update" class="btn btn-outline-primary" onclick="return Confirmmessage()"/>
+                </div>
+            </div>
+        </div>
+       }
+    <div class="modal fade" tabindex="-1" id="createCategory"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                    <h4 class="modal-title">Create New Category</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="col-md-12 ">
+                                @Html.DropDownList("CompanyId", null, "Select Your Company", htmlAttributes: new { @class = "form-control", @id = "companyname" })
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                @*@Html.ValidationMessage("CategoryNameExist", new { @class = "text-danger" })*@
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" placeholder="Enter Category Name" id="CatName" class="form-control" required />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4" id="saveCat">Create</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4"> Close </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="createSubCategory"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                    <h4 class="modal-title">Create New Sub-Category</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.DropDownList("ProductCategoryId", null, " Select Product Category ", htmlAttributes: new { @class = "form-control", @id = "ModelProductCategoryId" })
+                                <input type="text" placeholder="Enter Sub-Category Name" id="CatSubName" class="form-control" required />
+                                @Html.ValidationMessage("SubCategoryNameExist", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4" id="saveSubCat">Create</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="createMeasureUnit"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                    <h4 class="modal-title">Create New Measurement Unit</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="col-md-12 ">
+                                @Html.DropDownList("CompanyId", null, "Select Your Company", htmlAttributes: new { @class = "form-control", @id = "mcname" })
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("ProMeasureUnitExist", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" placeholder="Enter Unit Name" id="UnitName" class="form-control" required />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4" id="saveUnit">Create</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="createBrand"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                    <h4 class="modal-title">Create New Brand</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="col-md-12 ">
+                                @Html.DropDownList("CompanyId", null, "Select Your Company", htmlAttributes: new { @class = "form-control", @id = "bcname" })
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("ProBrandExist", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" placeholder="Enter Brand Name" id="BrandName" class="form-control" required />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4" id="saveBrand">Create</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="createRack"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                    <h4 class="modal-title">Create New Rack</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="col-md-12 ">
+                                @Html.DropDownList("CompanyId", null, "Select Your Company", htmlAttributes: new { @class = "form-control", @id = "rcname" })
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("ProRackExist", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" placeholder="Enter Rack Name" id="RackName" class="form-control" required />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4" id="saveRack">Create</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4"> Close </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        productCreate();
+        function Confirmmessage() {
+            var alert = confirm("Are you sure want to Update Product?");
+            if (alert) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+}

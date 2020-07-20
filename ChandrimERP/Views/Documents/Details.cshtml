@@ -1,0 +1,229 @@
+﻿@model ChandrimERP.Models.Document
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .pagesize {
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .details {
+        
+        padding: 0px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .details .title {
+            color: #000080;
+            font-size: 17px;
+            font-family: consolas;
+        }
+
+        .details .title2 {
+            color: #000080;
+            font-size: 15px;
+            font-family: comic sans ms;
+        }
+
+        .details .desc {
+            font-weight: bold;
+            padding-left: 15px;
+            font-size: 17px;
+        }
+
+        .details .desc2 {
+            font-weight: bold;
+            color: White;
+            padding-right: 10px;
+            font-size: 15px;
+        }
+
+    .detailsheader h2 {
+        margin: 0px;
+    }
+
+    .detailscol {
+        padding: 15px;
+    }
+
+
+    .chart1 .imgs {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    .chart1 {
+        width: 6cm;
+        float: left;
+        padding: 15px;
+        height: 100%;
+        background-color: #9bafde;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+    }
+
+    .chart2 {
+        padding: 15px;
+        width: 10cm;
+        float: left;
+        margin-left: 6cm;
+        min-height: 500px;
+    }
+
+    .chart1 h4 {
+        text-align: center;
+    }
+    .pad{
+        margin: 15px;
+    }
+</style>
+<div class="pagesize">
+    <div class="card-style">
+        <div class="card-style-body details">
+            <div>
+                @if (Model.DocumentPath == null)
+                {
+                    <img src="~/Image/Customer/Image/user.png" class="user-image imgs" alt="User Image">
+                }
+                else
+                {
+                    var imagePath = "";
+                    imagePath = Url.Content(Model.DocumentPath);
+
+                    if (imagePath != "")
+                    {
+                        <img src="@imagePath" class="user-image imgs" alt="User Image">
+                    }
+                }
+            </div>
+            <div class="pad">
+                <table>
+                    <tbody >
+                        <tr>
+                            <td class="title"></td>
+                            <td class="desc"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.DocumentName)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.DocumentName)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.DocumentCode)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.DocumentCode)</td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.DocumentDetails)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.DocumentDetails)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.EXPDate)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.EXPDate)</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            </div>
+    </div>
+</div>
+@*@model ChandrimERP.Models.Document
+
+    @{
+        ViewBag.Title = "Details";
+    }
+
+    <h2>Details</h2>
+
+    <div>
+        <h4>Document</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Company.CompanyName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Company.CompanyName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocumentCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocumentName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentAccessCount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocumentAccessCount)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentDetails)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocumentDetails)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentPath)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocumentPath)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EXPDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EXPDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UpdateDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

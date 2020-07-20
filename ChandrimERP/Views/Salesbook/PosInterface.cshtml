@@ -1,0 +1,833 @@
+﻿
+@model ChandrimERP.Models.SalesOrderVM
+@{
+    ViewBag.Title = "Sales Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card-style">
+        <div class="card-style-header">
+            Sales Invoice
+        </div>
+        <div class="card-style-body">
+            <div class="row">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @if (ViewBag.Message == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger alert-dismissible fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Error!</strong> @ViewBag.Message
+                        </div>
+                    }
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @Value = ViewBag.FirstName, @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control ", @Value = @ViewBag.UserName, @readonly = "readonly", @id = "username" } })
+                                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @id = "orderdate", @value = System.DateTime.Now } })
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                <div style="display:flex;justify-content:space-between;">
+                                    @Html.DropDownList("CustomerID", null, "Select", htmlAttributes: new { @class = "form-control customerList", @id = "customer" })
+                                    <button id="btnShowModal" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LedgerId, "LedgerId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("LedgerId", null, htmlAttributes: new { @class = "form-control LedgerList", @id = "LedgerId" })
+                                @Html.ValidationMessageFor(model => model.LedgerId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @id = "duedate" } })
+                                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control BranchList", @id = "branch" })
+                                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.WarehouseId, "WarehouseId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("WarehouseId", null, htmlAttributes: new { @class = "form-control WarehouseList", @id = "warehouse" })
+                                @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "SalesAgentId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SalesAgentId", null, htmlAttributes: new { @class = "form-control SalesAgentList", @Id = "SalesAgentId" })
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LastOrderDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.LastOrderDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "closingbalance" } })
+                                @Html.ValidationMessageFor(model => model.LastOrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @id = "deliverydate" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <p>
+                Enter Barcode @Html.Editor("Barcode")
+            </p>
+            <div class="table ">
+                <table id="detailsTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="center">Barcode</th>
+                            <th class="center">Name of Item</th>
+                            <th class="center">Description</th>
+                            <th class="center">Quantity</th>
+                            <th class="center">MRP</th>
+                            <th class="center">Total Rate</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Narration:</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" id="Narration" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Quantity:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Discount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.TotalDiscount, new { htmlAttributes = new { @class = "form-control totalDiscount", @readonly = "readonly", @id = "totalDiscount" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control total", @readonly = "readonly", id = "TotalAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Less:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LessAmount, new { htmlAttributes = new { @class = "form-control lessAmount", onChange = "invoiceAmount()", @id = "LessAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Vat Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.VatAmount, new { htmlAttributes = new { @class = "form-control totalVAT", @readonly = "readonly", @id = "VatAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Add:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.AddAmount, new { htmlAttributes = new { @class = "form-control addAmount", onChange = "invoiceAmount()", @id = "AddAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Net Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.InvoicedAmount, new { htmlAttributes = new { @class = "form-control invoicedTotal", @readonly = "readonly", @id = "invoicedTotal" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-style-footer">
+            <div class="btn-group left">
+                <button type="button" class="btn btn-default ">@Html.ActionLink("Find", "SalesInvoiceReport")</button>
+                <button type="button" class="btn btn-default ">@Html.ActionLink("Report", "SalesInvoiceReport")</button>
+            </div>
+            <div class="btn-group right">
+                <button type="button" class="btn btn-default" id="saveOrder">Save</button>
+                <button type="button" class="btn btn-default "><a href="@Url.Action("Index", "Home")"><span>Close</span></a></button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" tabindex="-1" id="createCustomer"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card-style-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">Create New Customer</h4>
+            </div>
+            <div class="card-style-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "CompanyId" })
+                            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @id = "CompanyName" } })
+                            @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.OpeningBlance, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.OpeningBlance, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OpeningBlance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContactFirstName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ContactFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContactLastName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ContactLastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactLastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label " })
+                            @Html.EnumDropDownListFor(model => model.Genders, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Genders, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("PhoneExist", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.WebPage, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.WebPage, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.WebPage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-4">
+                            @Html.Label("Country", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.Country, new SelectList(""), "Country", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.Label("State", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.State, new SelectList(""), "State", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.Label("City", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.City, new SelectList(""), "City", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.AddressLineOne, htmlAttributes: new { @class = "control-label " })
+                            @Html.EditorFor(model => model.AddressLineOne, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AddressLineOne, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.AddressLineTwo, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.AddressLineTwo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AddressLineTwo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @id = "Status" } })
+                                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="card-style-footer">
+                <div class="btn-group right">
+                    <button type="submit" class="btn btn-outline-primary button button4" id="saveCousromer">Create</button>
+                    <button type="button" id="btnHideModal" class="btn btn-outline-primary button button4"> Close </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        ///pos interface
+        var detailsTableBody = $("#detailsTable tbody");
+        var productquantity = 1;
+        $("#Barcode").change(function() {
+            $.ajax({
+                url: "/Salesbook/getProductsList?barcode=" + $('#Barcode').val().toString(),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                error: function(data) {
+                    alert(data.responseText);
+                },
+                success: function(data) {
+                    $("#Barcode").val('');
+                    var value2 = $('#' + data[0].ProductCode + '').html();
+                    var value3 = $('.' + data[0].ProductCode + '').html();
+                    if (isNaN(value2) || value2 == "") {
+                        var productItem = '<tr><td>' + data[0].Barcode + '</td><td>' + data[0].ProductName + '</td><td>' + data[0].ProductDescription + '</td><td id="' + data[0].ProductCode + '">' + productquantity + '</td><td>' + data[0].ProductPrice + '</td><td class="' + data[0].ProductCode + '">' + data[0].ProductPrice + '</td><input type="hidden">' + data[0].ProductId + '</input><input type="hidden">' + data[0].ProductCode + '</input><input type="hidden">' + data[0].ProductVat + '</input><input type="hidden">' + data[0].ProductVat + '</input><input type="hidden">' + data[0].ProductMeasure + '</input><input type="hidden">' + data[0].ModelName + '</input><td><div class="btn-group">'
+                        + '<button  data-itemId="0"  type="button" class="deleteItem btn btn-default glyphicon glyphicon-remove"></button>'
+                        + '</div></td></tr>';
+                        detailsTableBody.append(productItem);
+                        $("#Barcode").val('');
+                    } else {
+                        if (value2 >= 1) {
+                            $('#' + data[0].ProductCode + '').html(parseInt(parseInt(value2) + 1));
+                            $('.' + data[0].ProductCode + '').html(parseFloat(value3) + data[0].ProductPrice);
+                        }
+                    }
+                    invoiceAmount();
+                }
+            });
+        });
+        $(document).on('click', 'button.deleteItem', function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            if ($(this).attr('data-itemId') == "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                    invoiceAmount();
+                });
+            }
+        });
+        /////////////////////
+        $(function () {
+            //LoadData();
+            $("#saveCousromer").click(function () {
+                var std = {};
+                std.CompanyId = $("#CompanyId").val();
+                std.CompanyName = $("#CompanyName").val();
+                std.ContactFirstName = $("#ContactFirstName").val();
+                std.ContactLastName = $("#ContactLastName").val();
+                std.OpeningBlance = $("#OpeningBlance").val();
+                std.Genders = $("#Genders").val();
+                std.Phone = $("#Phone").val();
+                std.Email = $("#Email").val();
+                std.WebPage = $("#WebPage").val();
+                std.Country = $("#Country").val();
+                std.State = $("#State").val();
+                std.City = $("#City").val();
+                std.AddressLineOne = $("#AddressLineOne").val();
+                std.AddressLineTwo = $("#AddressLineTwo").val();
+                std.Status = $("#Status").val();
+                std.Notes = $("#Notes").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("addcustomer")',
+                    data: '{customer: ' + JSON.stringify(std) + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        $('#createCustomer').modal('hide');
+                        alert("Add Customer successfully");
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
+                });
+                return false;
+            });
+
+        });
+
+        /* For Show & hide Modal*/
+        $(document).ready(function () {
+            $("#btnShowModal").click(function () {
+                $("#createCustomer").modal('show');
+            });
+
+            $("#btnHideModal").click(function () {
+                $("#createCustomer").modal('hide');
+            });
+        });
+
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("getProductList")',
+                contentType: "application/json; charset=utf-8",
+                datatype: 'json',
+                success: function (result) {
+                    $(result).each(function (i, item) {
+                        $(".productList").append('<option value="' + item.ProductId + '"  data-subtext="' + item.ProductCode + ' ' + item.Description + '" >' + item.ProductName + '</option>');
+
+                    });
+                },
+                error: function (data) { }
+            });
+        });
+        $(document).ready(function() {
+
+            $("#barcode").change(function() {
+
+                var barcode = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Salesbook/getProduct/" + barcode,
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+                        var items = '';
+                        var int = 0;
+                        $.each(data, function(i, item) {
+                            var rows =
+                                $('#productName').val(item.ProductName);
+                            $('#pCode').val(item.ProductCode);
+                            $('#pDesc').val(item.Description);
+                            $('#rate').val(item.ProductRate);
+                            $('#pUnit').val(item.ProductMeasure);
+                            $("#discount").val();
+                            $('#pVAT').val(item.ProductVat);
+
+                            $('#tablecus tbody th').append(rows);
+                        });
+                    },
+                    error: function(ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+                });
+            });
+        });
+        //Get Closing Balance
+        $(document).ready(function () {
+            $("#customer").change(function () {
+                var customerid = $(this).val();
+                $("#closingbalance").val(" ");
+                $.ajax({
+                    type: "Post",
+                    url: "/Salesbook/GetClosingBalance/" + customerid,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        var items = '';
+                        var int = 0;
+                        $.each(data, function (i, item) {
+                            $("#closingbalance").append($("#closingbalance").val(item.ClosinngBalance));
+                        });
+                    },
+                    error: function (ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+                });
+
+            });
+
+        });
+        //Add Multiple Order.
+        $("#addToList").click(function (e) {
+            if (parseInt($("#quantity").val()) < 0) {
+                alert("Quantity must be 1 or greater then 1");
+                $("#quantity").val(" ");
+                return false;
+            }
+            e.preventDefault();
+
+            if ($.trim($("#barcode").val()) == "" || $.trim($("#productName").val()) == "" ||
+                $.trim($("#quantity").val()) == "" || $.trim($("#rate").val()) == "") return;
+
+            var barcode = $("#barcode").val(),
+                productCode = $("#pCode").val(),
+                productName = $("#productName").val(),
+                productDesc = $("#pDesc").val(),
+                quantity = $("#quantity").val(),
+                rate = $("#rate").val(),
+                productUnit = $("#pUnit").val(),
+                discount = $("#discount").val(),
+
+                tAmount = parseFloat(parseFloat(rate) * parseInt(quantity)),
+                netTotal = "",
+                bonusQnt = $("#bonusQnt").val(),
+                batch = $("#batch").val(),
+
+                vatamount = parseFloat(($("#pVAT").val()) * parseFloat(tAmount) / 100).toFixed(2),
+
+                detailsTableBody = $("#detailsTable tbody");
+
+            if (isNaN(bonusQnt) || $.trim($("#bonusQnt").val()) == "") {
+                bonusQnt = 0;
+            }
+            if (discount.indexOf("%") <= -1) {
+                var pFdiscount = parseFloat(discount);
+                if (typeof pFdiscount === 'string' || isNaN(pFdiscount)) {
+                    alert("Please Check Your Discount!! Only alow Number or %")
+                    pFdiscount = 0;
+                    netTotal = (tAmount - pFdiscount).toFixed(2);
+                }
+                else if (typeof pFdiscount === 'number') {
+                    netTotal = (tAmount - pFdiscount).toFixed(2);
+                }
+                else {
+                    alert("Error");
+                }
+            }
+            else {
+                var discountPers = discount.replace(/%/g, "");
+                var pFdiscount = parseFloat(discountPers);
+                if (typeof pFdiscount === 'string' || isNaN(pFdiscount)) {
+                    alert("Please Check Your Discount!! Only alow Number or %")
+                    pFdiscount = 0;
+                    netTotal = (tAmount - pFdiscount).toFixed(2);
+                }
+                else if (typeof pFdiscount === 'number' && pFdiscount <= 100) {
+                    pFdiscount = ((tAmount * pFdiscount) / 100);
+                    netTotal = (tAmount - pFdiscount).toFixed(2);
+                }
+                else {
+                    alert("Error");
+                    pFdiscount = 0;
+                    netTotal = (tAmount - pFdiscount).toFixed(2);
+                }
+            }
+
+
+            var productItem = '<tr><td>' + productCode + '</td><td>' + productName + '</td><td>' + productDesc + '</td><td>' + quantity +
+                '</td><td>' + rate + '</td><td>' + productUnit + '</td><td>' + tAmount + '</td><td>' + pFdiscount + '</td><td>'
+                + netTotal + '</td><td>' + batch + '</td><td>' + parseInt(bonusQnt) + '</td><td class="">' + vatamount +
+                '</td><td class="hidden">' + barcode + '</td><td><div class="btn-group">'
+                + '<button  data-itemId="0"  type="button" class="deleteItem btn btn-default glyphicon glyphicon-remove"></button>'
+                + '</div></td></tr>';
+            detailsTableBody.append(productItem);
+            clearItem();
+            invoiceAmount();
+
+
+        });
+        function invoiceAmount() {
+            var sumVal = 0;
+            var sumValqnt = 0;
+            var sumDiscount = 0;
+            var sumValBonusqnt = 0;
+            var vatAmount = 0;
+            var table = document.getElementById("detailsTable");
+            for (var i = 1; i < table.rows.length; i++) {
+                sumVal = sumVal + parseFloat(table.rows[i].cells[5].innerHTML);
+            }
+            for (var i = 1; i < table.rows.length; i++) {
+                sumValqnt = sumValqnt + parseFloat(table.rows[i].cells[3].innerHTML);
+            }
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    sumDiscount = sumDiscount + parseFloat(table.rows[i].cells[7].innerHTML);
+            //}
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    sumValBonusqnt = sumValBonusqnt + parseFloat(table.rows[i].cells[10].innerHTML);
+            //}
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    vatAmount = vatAmount + parseFloat(table.rows[i].cells[11].innerHTML);
+            //}
+            //sumValqnt = sumValqnt + sumValBonusqnt;
+            $("#TotalAmount").val(sumVal);
+            $(".totalQNT").val(sumValqnt);
+            //$(".totalDiscount").val(sumDiscount);
+            //$(".totalVAT").val(vatAmount);
+            if (isNaN($(".total").val()) || $.trim($(".total").val()) == "") {
+                $(".total").val(0);
+            }
+            if (isNaN($(".totalVAT").val()) || $.trim($(".totalVAT").val()) == "") {
+                $(".totalVAT").val(0);
+            }
+            if (isNaN($(".addAmount").val()) || $.trim($(".addAmount").val()) == "") {
+                $(".addAmount").val(0);
+            }
+            if (isNaN($(".lessAmount").val()) || $.trim($(".lessAmount").val()) == "") {
+                $(".lessAmount").val(0);
+            }
+            var invoicedTotal = (parseFloat($(".total").val()) + parseFloat($(".totalVAT").val()) + parseFloat($(".addAmount").val())).toFixed(2) - parseFloat($(".lessAmount").val()).toFixed(2)
+            $(".invoicedTotal").val(invoicedTotal)
+        }
+        function clearItem() {
+            $("#barcode").val('');
+            $("#productName").val('');
+            $("#quantity").val('');
+            $("#rate").val('');
+            $("#discount").val('');
+            $("#bonusQnt").val('');
+            $("#batch").val('');
+            $('#pVAT').val('');
+        }
+        $(document).on('click', 'button.deleteItem', function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            if ($(this).attr('data-itemId') == "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                    invoiceAmount();
+                });
+            }
+        });
+
+        var config = {
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-rtl': { rtl: true },
+            '.chosen-select-width': { width: '95%'}
+        }
+        for (var selector in config) {
+            $('.customerList').chosen(config['.customerList']);
+        }
+        for (var selector in config) {
+            $('.LedgerList').chosen(config['.LedgerList']);
+        }
+        for (var selector in config) {
+            $('.BranchList').chosen(config['.BranchList']);
+        }
+        for (var selector in config) {
+            $('.WarehouseList').chosen(config['.WarehouseList']);
+        }
+        for (var selector in config) {
+            $('.SalesAgentList').chosen(config['.SalesAgentList']);
+        }
+        for (var selector in config) {
+            $('.productlist').chosen(config['.productlist']);
+        }
+
+        /* country dropdown list*/
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Country/GetCountryList",
+                contentType: "application/json; charset=utf-8",
+                datatype: 'json',
+                success: function (response) {
+                    $("#Country").empty();
+                    $("#Country").append(response);
+                },
+                error: function (data) { }
+            });
+        });
+        /* State dropdown list*/
+        $(document).ready(function() {
+
+            $("#Country").change(function() {
+
+                var countryId = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Country/GetStateList?CountryId=" + countryId,
+                    contentType: "html",
+                    success: function(response) {
+                        $("#State").empty();
+                        $("#State").append(response);
+
+                    }
+                });
+            });
+
+        });
+        /* City dropdown list*/
+        $(document).ready(function() {
+
+            $("#State").change(function() {
+
+                var stateId = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Country/GetCityList?StateId=" + stateId,
+                    contentType: "html",
+                    success: function(response) {
+                        $("#City").empty();
+                        $("#City").append(response);
+
+                    }
+
+                });
+
+            });
+
+        });
+
+
+        //Collect Multiple Order List For Pass To Controller
+        $("#saveOrder").click(function (e) {
+            e.preventDefault();
+            var r = confirm("Confirm to Submit!");
+            if (r == true) {
+                saveData();
+            };
+        });
+
+        function saveData() {
+            var order = {};
+            order.OrderDate = $("#orderdate").val(),
+                order.CustomerID = $("#customer").val(),
+                order.DueDate = $("#duedate").val(),
+                order.DeliveryDate = $("#deliverydate").val(),
+                order.BranchId = $("#branch").val(),
+                order.WarehouseId = $("#warehouse").val(),
+                order.LedgerId = $("#LedgerId").val(),
+                order.SalesAgentId = $("#SalesAgentId").val(),
+                order.Narration = $("#Narration").val(),
+                order.TotalQNT = $("#totalQNT").val(),
+                order.TotalDiscount = $("#totalDiscount").val(),
+                order.TotalAmount = $("#TotalAmount").val(),
+                order.VatAmount = $("#VatAmount").val(),
+                order.LaseAmount = $("#LessAmount").val(),
+                order.Addamount = $("#AddAmount").val(),
+                order.InvoicedAmount = $("#invoicedTotal").val()
+
+            var orderArr = [];
+            orderArr.length = 0;
+            $.each($("#detailsTable tbody tr"), function () {
+                orderArr.push({
+                    Barcode: $(this).find('td:eq(0)').html(),
+                    ProductName: $(this).find('td:eq(1)').html(),
+                    ProductDescription: $(this).find('td:eq(2)').html(),
+                    ProductCode: $(this).find('td:eq(3)').html(),
+                    Quantity: $(this).find('td:eq(4)').html(),
+                    Rate: $(this).find('td:eq(5)').html(),
+                    TotalAmount: $(this).find('td:eq(3)').html(),
+                    MeasureUnit: $(this).find('td:eq(5)').html(),
+                    Discount: $(this).find('td:eq(7)').html(),
+                    NetTotal: $(this).find('td:eq(8)').html(),
+                    BatchOrSerial: $(this).find('td:eq(9)').html(),
+                    BonusQuantity: $(this).find('td:eq(10)').html(),
+                    VAT: $(this).find('td:eq(11)').html(),
+                    ProductId: $(this).find('td:eq(12)').html()
+                });
+            });
+
+            var data = JSON.stringify({
+                orderdata: orderArr,
+                orders:order
+            });
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url:'@Url.Action("SalesInvoice")',
+                data: data,
+                //data: '{orders: ' + JSON.stringify(order) + '}',
+                success: function (result) {
+                    alert(result);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Your request not  valid, Please check Order QTN !");
+                }
+            });
+        };
+    </script>
+}
+
+
+
+
+

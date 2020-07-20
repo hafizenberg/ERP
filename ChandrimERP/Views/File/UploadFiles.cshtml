@@ -1,0 +1,193 @@
+﻿@model ChandrimERP.Models.Document
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .boxes {
+        color: #000;
+        display: none;
+    }
+    .cuscolor {
+        color: red;
+    }
+</style>
+<div class="container cus">
+    @using (Html.BeginForm(null, null, FormMethod.Post,
+                                                     new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card-style">
+                <div class="card-style-body">
+                    <div class="form-horizontal">
+                        <h4>Document</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })
+                                @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <label class="fa fa-circle-o radioList cust" change="customer" chandrim="customer"> Customer </label>
+                            <label class="fa fa-circle-o radioList com" change="company" chandrim="company"> Company </label>
+                            <label class="fa fa-circle-o radioList emp" change="employee" chandrim="employee"> Employee </label>
+                            <label class="fa fa-circle-o radioList bra" change="branch" chandrim="branch"> Branch </label>
+                            <label class="fa fa-circle-o radioList sup" change="supplier" chandrim="supplier"> Supplier </label>
+                        </div>
+                        <div class="customer boxes">
+                            <select class="form-control customerList" id="CustomerId">
+                                <option value="">Select Customer</option>
+                                @if (ViewBag.CustomerId != null)
+                                {
+                                    foreach (var item in ViewBag.CustomerId)
+                                    {
+                                        <option value="@item.Value">@item.Text </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="company boxes">
+                            <select class="form-control companyList" id="CompanyId">
+                                <option value="">Select Company</option>
+                                @if (ViewBag.GetCompanyId != null)
+                                {
+                                    foreach (var item in ViewBag.GetCompanyId)
+                                    {
+                                        <option value="@item.Value">@item.Text </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="employee boxes">
+                            <select class="form-control employeeList" id="EmployeeId">
+                                <option value="">Select Employee</option>
+                                @if (ViewBag.EmployeeId != null)
+                                {
+                                    foreach (var item in ViewBag.EmployeeId)
+                                    {
+                                        <option value="@item.Value">@item.Text </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="branch boxes">
+                            <select class="form-control branchList" id="BranchId">
+                                <option value="">Select Branch</option>
+                                @if (ViewBag.BranchId != null)
+                                {
+                                    foreach (var item in ViewBag.BranchId)
+                                    {
+                                        <option value="@item.Value">@item.Text </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="supplier boxes">
+                            <select class="form-control supplierList" id="SupplierId">
+                                <option value="">Select Supplier</option>
+                                @if (ViewBag.SupplierId != null)
+                                {
+                                    foreach (var item in ViewBag.SupplierId)
+                                    {
+                                        <option value="@item.Value">@item.Text </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group ref">
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.RefId, new { htmlAttributes = new { @class = "form-control", @id = "refid", @type = "hidden" } })
+                            </div>
+                        </div>
+                        <div class="form-group ref">
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.RefType, new {htmlAttributes = new {@class = "form-control", @id = "reftype", @type = "hidden"}})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CompanyId, new { htmlAttributes = new { @class = "form-control", @id = "comid", @type = "hidden" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CompanyId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                <select class="form-control" id="companyId">
+                                    <option value="">Select Company</option>
+                                    @if (ViewBag.CompanyId != null)
+                                    {
+                                        foreach (var item in ViewBag.CompanyId)
+                                        {
+                                            <option value="@item.Value">@item.Text </option>
+                                        }
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentCode, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DocumentCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DocumentName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DocumentDetails, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DocumentDetails, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DocumentDetails, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EXPDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.EXPDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EXPDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Upload" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10 text-success">
+                                @ViewBag.UploadStatus
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    }
+</div>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function() {
+            fileUploadFiles();
+        });
+    </script>
+}
+

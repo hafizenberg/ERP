@@ -1,0 +1,51 @@
+﻿@model ChandrimERP.Models.EmployeePropInfo
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmployeePropInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employees.EmployeeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employees.EmployeeCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeJoiningDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeJoiningDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalaryTypes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalaryTypes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpBasicSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpBasicSalary)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

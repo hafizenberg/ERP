@@ -1,0 +1,104 @@
+﻿
+@using System.Web.UI.WebControls
+@using GridMvc.Html
+@model IEnumerable<ChandrimERP.Models.JournalReportVM>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid grid = new WebGrid(source: Model, canSort: true, rowsPerPage: 5);
+    var mas = ViewBag.mass;
+}
+<style>
+    th, td {
+        padding: 5px;
+    }
+
+    th {
+        background-color: rgb(248, 248, 248);
+    }
+
+    #gridT, #gridT tr {
+        border: 1px solid #0D857B;
+    }
+
+    #subT, #subT tr {
+        border: 1px solid #f3f3f3;
+    }
+
+    #subT {
+        margin: 0px 0px 0px 10px;
+        padding: 5px;
+        width: 95%;
+    }
+
+        #subT th {
+            font-size: 12px;
+        }
+
+    .hoverEff {
+        cursor: pointer;
+    }
+
+
+    .expand {
+        background-image: url(../image/componant/expand_icon.png);
+        width: 15px;
+        height: 32px;
+        background-position-x: -16px;
+        background-repeat: no-repeat;
+        background-position-y: 5px;
+    }
+
+    .collapse {
+        background-image: url(../image/componant/expand_icon.png);
+        width: 16px;
+        height: 32px;
+        background-position-x: 0px;
+        background-repeat: no-repeat;
+        background-position-y: 5px;
+    }
+</style>
+
+<div style="float:right;padding-right: 25px;padding-bottom: 5px;padding-top: 10px;"><input type="text" id="search" placeholder="live search"></input></div>
+<div id="main" style="padding:25px; background-color:white;">
+    @grid.GetHtml(
+                htmlAttributes: new { id = "gridT", width = "100%" },
+                columns: grid.Columns(
+                        grid.Column("Transaction.VoucherNo", "Invoice No"),
+                        grid.Column("Transaction.VoucherType", "Voucher Type"),
+                        grid.Column("Transaction.TrasactionalAmount", "Trasactional Amount"),
+                        grid.Column("Transaction.TransactionDate", "Trasactional Date"),
+
+                        grid.Column("Transaction.Narration", "Narration"),
+                         // grid.Column("Order.Branch.Com", "User Name"),
+                         grid.Column(header: "DETAILS", format: (item) => Html.ActionLink("Details", "Details", new { id = item.Transaction.Id })),
+
+                    grid.Column(format: (item) =>
+                    {
+                        WebGrid subGrid = new WebGrid(source: item.TransactionDetails);
+                        return subGrid.GetHtml(
+                            htmlAttributes: new { id = "subT" },
+                            columns: subGrid.Columns(
+                                    subGrid.Column("VoucherNo", "Voucher No"),
+                                    subGrid.Column("VoucherType", "Voucher Type"),
+                                    subGrid.Column("LedgerName", "Ledger Name"),
+                                    subGrid.Column("DebitAmount", "Debit Amount"),
+                                    subGrid.Column("CreditAmount", "Credit Amount")
+                                )
+                            );
+                    })
+                    )
+                )
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            easyaccountPaymentReport();
+        });
+    </script>
+}
+
+

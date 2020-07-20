@@ -1,0 +1,34 @@
+﻿
+    <h3 class="text-center">@ViewBag.CompanyName</h3>
+    <h4 class="text-center">Profit and Loss Statement</h4>
+    <h5 class="text-center">@ViewBag.DateRange</h5>
+    @functions {
+        public decimal SubtractNumbers(decimal number1, decimal number2)
+        {
+            return Convert.ToDecimal(number1) - Convert.ToDecimal(number2);
+        }
+    }
+    <table class="table table-bordered"id="table">
+        <tr><th></th><th class="text-right">@DateTime.Now.ToString("dd-MMM-yyyy")</th></tr>
+        <tr><td><strong>Income</strong></td><td></td></tr>
+        @foreach (var item in ViewBag.Income)
+        {
+            <tr><td>@item.Name</td><td class="text-right"id="income">@SubtractNumbers(Convert.ToDecimal(@item.CrBalance), Convert.ToDecimal(@item.DrBalance))</td></tr>
+        }
+        <tr><td><strong>Total</strong></td><td class="text-right" style="border-bottom:double; border-top:solid 2px #000">@ViewBag.IncomeSum</td></tr>
+        <tr><td><strong>Expenses</strong></td><td class="text-right"></td></tr>
+        @foreach (var item in ViewBag.Expenses)
+        {
+            <tr><td>@item.Name</td><td class="text-right"id="expenses">@SubtractNumbers(Convert.ToDecimal(@item.DrBalance), Convert.ToDecimal(@item.CrBalance))</td></tr>
+        }       
+        <tr><td><strong>Total</strong></td><td class="text-right" style="border-bottom:double; border-top:solid 2px #000">@ViewBag.ExpensesSum</td></tr>
+        @if (ViewBag.IncomeSum >= ViewBag.ExpensesSum)
+        {
+            <tr><td><strong>Net Profit</strong></td><td class="text-right" style="border-bottom:solid;">@SubtractNumbers(Convert.ToDecimal(@ViewBag.IncomeSum), Convert.ToDecimal(@ViewBag.ExpensesSum))</td></tr>
+                }
+                else if(ViewBag.IncomeSum <= ViewBag.ExpensesSum)
+        {
+            <tr><td><strong>Net Loss</strong></td><td class="text-right" style="border-bottom:solid;">@SubtractNumbers(Convert.ToDecimal(@ViewBag.IncomeSum), Convert.ToDecimal(@ViewBag.ExpensesSum))</td></tr>
+        }
+
+    </table>

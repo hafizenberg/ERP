@@ -1,0 +1,58 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        Chandrim ERP:-
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+        {
+            @ViewBag.Title
+        }
+        
+    </title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet">
+    @*<link rel="icon" href="~/chandrimSoft194405952.jpg"/>*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    @Styles.Render("~/Bundles/css")
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition fixed skin-blue sidebar-mini sidebar-collapse">
+    <div class="wrapper">
+        @Html.Partial("_Header")
+        @Html.Partial("_Sidebar")
+
+        <div class="content-wrapper">
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+        <footer class="main-footer d-none-p">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.1
+            </div>
+            <strong>Copyright © 2018-2019 <a href="http://chandrimsoft.com">Chandrim Soft</a>.</strong> All rights
+            reserved.
+        </footer>
+        @Html.Partial("_ControlSidebar")
+    </div>
+
+    <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
+    @Scripts.Render("~/Bundles/js")
+    @RenderSection("ViewSpecificJavascript", required: false)
+    @RenderSection("scripts", false)
+    @RenderSection("scripts2", false)
+    @RenderSection("scripts3", false)
+    @RenderSection("scripts4", false)
+    @RenderSection("scripts6", false)
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</body>
+</html>

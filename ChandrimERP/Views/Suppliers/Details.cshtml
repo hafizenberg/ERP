@@ -1,0 +1,400 @@
+﻿@model ChandrimERP.Models.Supplier
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .pagesize {
+        width: 18.5cm;
+        margin: auto;
+    }
+     .details {
+         padding: 0px;
+         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     }
+    .details .title{
+
+        color:#000080;
+        font-size: 17px;
+        font-family: consolas;
+    }
+    .details .title2{
+
+        color:#000080;
+        font-size: 15px;
+        font-family: comic sans ms;
+    }
+    .details .desc{
+        font-weight: bold;
+        padding-left: 15px; 
+        font-size: 17px;
+       
+    }
+    .details .desc2{
+        font-weight: bold;
+        color: White;
+        padding-right: 10px; 
+        font-size: 15px;
+    }
+    .detailsheader h2 {
+        margin: 0px;
+    }
+    .detailscol {
+        padding: 15px;
+    }
+    .details .img{
+        width: 300px;
+        height: auto;
+    }
+    .chart1 .imgs {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    img {
+        width: 200px;
+        height: 200px;
+    }
+    .chart1 {
+        width: 6cm;
+        float: left;
+        padding: 15px;
+        height: 100%;
+        background-color: #9bafde;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        }
+    .chart2 {
+        padding: 15px;
+        width: 10cm;
+        float: left;
+        margin-left: 6cm;
+        min-height: 500px;
+    }
+    .chart1 h4 {
+        text-align: center;
+    }
+</style>
+<div class="pagesize">
+    <div class="card-style">
+        <div class="card-style-body details">
+            <div class="chart1">
+                <div>
+                    @if (Model.ImageUrl == null)
+                    {
+                        <img src="~/Image/Supplier/Image/user.png" class="user-image img-circle imgs" alt="User Image">
+                    }
+                    else
+                    {
+                        var imagePath = "";
+                        imagePath = Url.Content(Model.ImageUrl);
+
+                        if (imagePath != "")
+                        {
+                            <img src="@imagePath" class="user-image img-circle imgs" alt="User Image">
+                        }
+                    }
+                </div>
+                <h4 class="title2">Company-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.Company.CompanyName)</h4>
+                <h4 class="title2">Supplier Name-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.CompanyName)</h4>
+                <h4 class="title2">Name-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.ContactFirstName) @Html.DisplayFor(model => model.ContactLastName)</h4>
+                <h4></h4>
+                <h4></h4>
+                <h4></h4>
+            </div>
+
+            <div>
+                <div class="chart2">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.SupplierCode)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.SupplierCode)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.JobTitle)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.JobTitle)</td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Genders)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Genders)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.BussinessPhone)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.BussinessPhone)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.MobilePhone)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.MobilePhone)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.AddressLineOne)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.AddressLineOne)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.AddressLineTwo)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.AddressLineTwo)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.OpeningBlance)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.OpeningBlance)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.FaxNumber)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.FaxNumber)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Country)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Country)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.State)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.State)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.City)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.City)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ZipOrPostalCode)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ZipOrPostalCode)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Email)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Email)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Website)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Website)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Notes)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Notes)</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div>
+        <h4>Supplier</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Company.CompanyName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Company.CompanyName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupplierCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupplierCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OpeningBlance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OpeningBlance)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CompanyName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JobTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactFirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactFirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactLastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactLastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Genders)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Genders)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.BussinessPhone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BussinessPhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MobilePhone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MobilePhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AddressLineOne)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AddressLineOne)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AddressLineTwo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AddressLineTwo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FaxNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FaxNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Country)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.State)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.State)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ZipOrPostalCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ZipOrPostalCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ImageUrl)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Website)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Website)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Notes)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Islocked)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Islocked)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LockedDateTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LockedDateTime)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

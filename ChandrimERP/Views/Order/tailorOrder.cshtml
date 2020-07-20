@@ -1,0 +1,892 @@
+﻿
+@model ChandrimERP.Models.TailorOrderVM
+@{
+    ViewBag.Title = "Tailor Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .d-flex{
+        display:flex;
+    }
+    .just-center{
+        justify-content:center;
+    }
+    .just-end{
+        justify-content:flex-end
+    }
+    .just-bet{
+        justify-content:space-between;
+    }
+    .just-start{
+        justify-content:flex-start;
+    }
+
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card-style">
+        <div class="card-style-header">
+            Tailor Invoice
+        </div>
+        <div class="card-style-body">
+            <div class="row">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserId, htmlAttributes: new {@Value = ViewBag.FirstName, @class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.UserId, new {htmlAttributes = new {@class = "form-control ", @Value = @ViewBag.UserName, @readonly = "readonly", @id = "username"}})
+                                @Html.ValidationMessageFor(model => model.UserId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new {htmlAttributes = new {@class = "form-control", @id = "orderdate"}})
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-md-8">
+                                @Html.HiddenFor(model => model.InvoiceNo, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.InvoiceNo, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                <div style="display: flex; justify-content: space-between;">
+                                    @Html.DropDownList("CustomerID", null, htmlAttributes: new {@class = "form-control customerList", @id = "customer"})
+                                    <button id="btnShowModal" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CustomerID, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LedgerId, "LedgerId", htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.DropDownList("LedgerId", null, htmlAttributes: new {@class = "form-control LedgerList"})
+                                @Html.ValidationMessageFor(model => model.LedgerId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DueDate, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DueDate, new {htmlAttributes = new {@class = "form-control", @id = "duedate"}})
+                                @Html.ValidationMessageFor(model => model.DueDate, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.DropDownList("BranchId", null, htmlAttributes: new {@class = "form-control BranchList", @id = "branch"})
+                                @Html.ValidationMessageFor(model => model.BranchId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.WarehouseId, "WarehouseId", htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.DropDownList("WarehouseId", null, htmlAttributes: new {@class = "form-control WarehouseList", @id = "warehouse"})
+                                @Html.ValidationMessageFor(model => model.WarehouseId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "SalesAgentId", htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.DropDownList("SalesAgentId", null, htmlAttributes: new {@class = "form-control SalesAgentList"})
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "TailorList", htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.DropDownList("TailorList", null, htmlAttributes: new {@class = "form-control SalesAgentList"})
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Prevous Balance</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.LastOrderDate, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+                                @Html.ValidationMessageFor(model => model.LastOrderDate, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PrevousDues, htmlAttributes: new {@class = "control-label col-md-4"})
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PrevousDues, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+                                @Html.ValidationMessageFor(model => model.PrevousDues, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DalevaryDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DalevaryDate, new { htmlAttributes = new { @class = "form-control", @id = "orderdate" } })
+                                @Html.ValidationMessageFor(model => model.DalevaryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="d-flex just-bet">
+                    <label >Tul Long</label>
+                    <input type="text" value="" id="tul" class="form-group" style="width: 50px; padding: 0px 5px;"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Arrad Body</label><br/>
+                    <input type="text" value="" id="arrad" class="form-group" style="width: 50px; padding: 0px 5px;"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Kocchor Waist</label><br/>
+                    <input type="text" value="" id="kocchor" class="form-group" style="width: 50px; padding: 0px 5px;"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Hip</label><br />
+                    <input type="text" value="" id="hip" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                </div>
+            </div>
+            <div class="col-md-2">
+               
+                <div class="d-flex just-bet">
+                    <label>Khetab Shoulder</label><br/>
+                    <input type="text" value="" id="khetab" class="form-group" style="width: 50px; padding: 0px 5px;"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Ibad Mohra</label><br/>
+                    <input type="text" value="" id="ibad" class="form-group" style="width: 50px; padding: 0px 5px;"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Ordun Hand</label><br />
+                    <input type="text" value="" id="ordun" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Orgoba Throat</label><br />
+                    <input type="text" value="" id="orgoba" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="d-flex just-bet">
+                    <label>Gher Enclorure</label><br/>
+                    <input type="text" value="" id="gher" class="form-group" style="width: 50px; padding: 0px 5px;"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Orgoba Throat</label><br />
+                    <input type="text" value="" id="throat" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                </div>
+                <div class="">
+                    <label>Shelha (Yes/No)</label><br />
+                    @Html.EnumDropDownListFor(model => model.Shelha, htmlAttributes: new { @class = "form-control", @id = "shelha" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                                             
+              
+                    <label>Ibad Mohra</label><br/>
+                    @Html.EnumDropDownListFor(model => model.IbadMohra, htmlAttributes: new { @class = "form-control" , @id = "mohra" })
+                <div >
+                    <label>Select Model</label><br />
+                    @Html.DropDownList("dressModel", null, "Select Your Model", htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                
+                <div class="d-flex just-bet">
+                    <label>Qty</label><br/>
+                    <input type="text" value="" id="qntsw" class="form-group" style="width: 50px; padding:0px 5px;" onChange="totalAmountsw()"/>
+                </div>
+                <div class="d-flex just-bet">
+                    <label>Rate</label><br/>
+                    <input type="text" value="" id="totalsw" class="form-group" style="width: 50px; padding:0px 5px;" onChange="totalAmountsw()"/>
+                </div>
+                <div>
+                    <label>Total Amount</label><br />
+                    <input type="text" value="" id="netAmountsw" class="form-group" readonly; style="width: 100%; padding: 0px 5px;" />
+                </div>
+            </div>
+            <div class="col-md-2 d-flex just-center" style="align-items:center; height:100px">
+               
+                <div style="padding: 10px;width:80%; text-align: center;"><button id="addToListsw" type="button" class="btn btn-basic" style="width: 100%; padding: 0px 5px ;">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="table" id="serviceInvoiceDetails">
+                <table>
+                    <thead>
+                    <h1 class="text-center" style="font-weight: bold; text-transform: uppercase">Order Description Details</h1>
+                    <hr style="border-top: 1px solid black;"/>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="table ">
+                <table id="tablecus" class="table">
+                    <tbody>
+                        <tr>
+                            <td>@Html.DropDownList("productlist", ViewBag.ProductList as SelectList, "Select Product", htmlAttributes: new { @class = "form-control productlist", @id = "barcode" })</td>
+                            <td>@Html.EditorFor(model => model.ScanProductName, new { htmlAttributes = new { @id = "productName", @placeholder = " Product Name ", @class = "form-control ", @readonly = "readonly" } })</td>
+                            <td>@Html.EditorFor(model => model.SetQuantity, new { htmlAttributes = new { @id = "quantity", @placeholder = " Quantity ", @class = "form-control ", } })</td>
+                            <td>@Html.EditorFor(model => model.SetRate, new { htmlAttributes = new { @id = "rate", @placeholder = " Rate ", @class = "form-control qty1" } })</td>
+                            <td><input type="text" name="Id" id="discount" class="form-control" placeholder="Disc"></td>
+                            <td>@Html.EditorFor(model => model.SetBonusQuantity, new { htmlAttributes = new { @id = "bonusQnt", @placeholder = " Bonus /Free ", @class = "form-control ", } })</td>
+                            <td><input type="text" name="Id" id="batch" class="form-control" placeholder="Batch / Serial No"></td>
+
+
+                            <td><input type="hidden" id="pCode" name="Id"></td>
+                            <td><input type="hidden" id="pDesc" name="Id"></td>
+                            <td><input type="hidden" id="pUnit" name="Id"></td>
+                            <td><input type="hidden" id="pVAT" name="Id"></td>
+                            <td><button id="addToList" type="button" class="btn btn-basic">Add</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="detailsTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="center">Product Code</th>
+                            <th class="center">Name of Item</th>
+                            <th class="center">Description</th>
+                            <th class="center">Qty</th>
+                            <th class="center">Rate</th>
+                            <th class="center">Per</th>
+                            <th class="center">Total Amt</th>
+                            <th class="center">Disc</th>
+                            <th class="center">Net Total</th>
+                            <th class="center">Batch</th>
+                            <th class="center">Bonus Qty</th>
+                            <th class="center">VAT</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Narration:</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Quantity:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control total", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Less:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LessAmount, new { htmlAttributes = new { @class = "form-control lessAmount", onChange = "invoiceAmount()" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Vat Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.VatAmount, new { htmlAttributes = new { @class = "form-control totalVAT", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Add:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.AddAmount, new { htmlAttributes = new { @class = "form-control addAmount", onChange = "invoiceAmount()" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Net Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.InvoicedAmount, new { htmlAttributes = new { @class = "form-control invoicedTotal", @readonly = "readonly", @id = "invoicedTotal" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-style-footer">
+            <div class="btn-group left">
+                <button type="button" class="btn btn-default ">Find</button>
+                <button type="button" class="btn btn-default ">Report</button>
+            </div>
+            <div class="btn-group right">
+                <button type="button" class="btn btn-default" id="saveOrder">Save</button>
+                <button type="button" class="btn btn-default ">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" tabindex="-1" id="createCustomer"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">Create New Customer</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Company</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "CompanyId" })
+                            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ContactFirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ContactFirstName, new { htmlAttributes = new { @class = "form-control", @id = "ContactFirstName" } })
+                            @Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ContactLastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ContactLastName, new { htmlAttributes = new { @class = "form-control", @id = "ContactFirstName" } })
+                            @Html.ValidationMessageFor(model => model.ContactLastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.Genders, htmlAttributes: new { @class = "form-control", @id = "Genders" })
+                            @Html.ValidationMessageFor(model => model.Genders, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @id = "Phone" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OpeningBlance, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OpeningBlance, new { htmlAttributes = new { @class = "form-control", @id = "OpeningBlance" } })
+                            @Html.ValidationMessageFor(model => model.OpeningBlance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AddressLineOne, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AddressLineOne, new { htmlAttributes = new { @class = "form-control", @id = "AddressLineOne" } })
+                            @Html.ValidationMessageFor(model => model.AddressLineOne, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary button button4" id="saveCousromer">Creare</button>
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4"> Close </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            //LoadData();
+            $("#saveCousromer").click(function () {
+                var std = {};
+                std.CompanyId = $("#CompanyId").val();
+                std.ContactFirstName = $("#ContactFirstName").val();
+                std.ContactLastName = $("#ContactLastName").val();
+                std.OpeningBlance = $("#OpeningBlance").val();
+                std.Genders = $("#Genders").val();
+                std.Phone = $("#Phone").val();
+                std.AddressLineOne = $("#AddressLineOne").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("addcustomer")',
+                    data: '{customer: ' + JSON.stringify(std) + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        $('#createCustomer').modal('hide');
+                        alert("Data has been added successfully.");
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
+                });
+                return false;
+            });
+
+        });
+
+        /* For Show & hide Modal*/
+        $(document).ready(function () {
+            $("#btnShowModal").click(function () {
+                $("#createCustomer").modal('show');
+            });
+
+            $("#btnHideModal").click(function () {
+                $("#createCustomer").modal('hide');
+            });
+        });
+
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("getProductList")',
+                contentType: "application/json; charset=utf-8",
+                datatype: 'json',
+                success: function (result) {
+                    $(result).each(function (i, item) {
+                        $(".productList").append('<option value="' + item.ProductId + '"  data-subtext="' + item.ProductCode + ' ' + item.Description + '" >' + item.ProductName + '</option>');
+
+                    });
+                },
+                error: function (data) { }
+            });
+        });
+        $(document).ready(function () {
+
+            $("#barcode").change(function () {
+
+                var barcode = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Order/getProduct/" + barcode,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        var items = '';
+                        var int = 0;
+                        $.each(data, function (i, item) {
+                            var rows =
+                            $('#productName').val(item.ProductName);
+                            $('#pCode').val(item.ProductCode);
+                            $('#pDesc').val(item.Description);
+                            $('#rate').val(item.ProductRate);
+                            $('#pUnit').val(item.ProductMeasure);
+                            $("#discount").val();
+                            $('#pVAT').val(item.ProductVat);
+
+                            $('#tablecus tbody th').append(rows);
+                        });
+                    },
+                    error: function (ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+
+                })
+
+            })
+
+        })
+
+        //Add Multiple Order.
+        $("#addToList").click(function (e) {
+              e.preventDefault();
+
+            if ($.trim($("#barcode").val()) == "" || $.trim($("#productName").val()) == "" ||
+                $.trim($("#quantity").val()) == "" || $.trim($("#rate").val()) == "") return;
+            //|| $.trim($("#discount").val()) == "" || $.trim($("#bonusQnt").val()) == "" || $.trim($("#batch").val()) == "" || $.trim($("#pVAT").val()) == ""
+
+            var barcode = $("#barcode").val(),
+                productCode = $("#pCode").val(),
+                productName = $("#productName").val(),
+                productDesc = $("#pDesc").val(),
+                quantity = $("#quantity").val(),
+                rate = $("#rate").val(),
+                productUnit = $("#pUnit").val(),
+                discount = $("#discount").val(),
+
+                tAmount = (parseFloat(rate) * parseInt(quantity)),
+                netTotal = "",
+                bonusQnt = $("#bonusQnt").val(),
+                batch = $("#batch").val(),
+
+                vatamount = (($("#pVAT").val()) * parseInt(tAmount)/100),
+
+                detailsTableBody = $("#detailsTable tbody");
+
+            if (isNaN(bonusQnt) || $.trim($("#bonusQnt").val()) == "") {
+                bonusQnt = 0;
+            }
+            if (discount.indexOf("%") <= -1) {
+                var pFdiscount = parseFloat(discount);
+                if (typeof pFdiscount === 'string' || isNaN(pFdiscount)) {
+                    alert("Please Check Your Discount!! Only alow Number or %")
+                    pFdiscount = 0;
+                    netTotal = (tAmount - pFdiscount);
+                }
+                else if (typeof pFdiscount === 'number') {
+                    netTotal = (tAmount - pFdiscount);
+                }
+                else {
+                    alert("Error")
+                }
+            }
+            else {
+                var discountPers = discount.replace(/%/g, "");
+                var pFdiscount = parseFloat(discountPers);
+                if (typeof pFdiscount === 'string' || isNaN(pFdiscount)) {
+                    alert("Please Check Your Discount!! Only alow Number or %")
+                    pFdiscount = 0;
+                    netTotal = (tAmount - pFdiscount);
+                }
+                else if (typeof pFdiscount === 'number' && pFdiscount <= 100) {
+                    pFdiscount = ((tAmount * pFdiscount) / 100);
+                    netTotal = (tAmount - pFdiscount);
+                }
+                else {
+                    alert("Error")
+                    pFdiscount = 0;
+                    netTotal = (tAmount - pFdiscount);
+                }
+            }
+
+
+            var productItem = '<tr><td>' + productCode + '</td><td>' + productName + '</td><td>' + productDesc + '</td><td>' + quantity +
+                '</td><td>' + rate + '</td><td>' + productUnit + '</td><td>' + tAmount + '</td><td>' + pFdiscount + '</td><td>'
+            + netTotal + '</td><td>' + batch + '</td><td>' + parseInt(bonusQnt) + '</td><td class="">' + vatamount +
+            '</td><td class="hidden">' + barcode + '</td><td><div class="btn-group">'
+                    + '<button  data-itemId="0"  type="button" class="deleteItem btn btn-default glyphicon glyphicon-remove"></button>'
+                    + '</div></td></tr>';
+            detailsTableBody.append(productItem);
+            clearItem();
+            invoiceAmount();
+
+
+        });
+
+
+        function totalAmountsw() {
+
+            if (isNaN($("#qntsw").val()) || $.trim($("#qntsw").val()) == "") {
+                $("#qntsw").val(0);
+            }
+            if (isNaN($("#totalsw").val()) || $.trim($("#totalsw").val()) == "") {
+                $("#totalsw").val(0);
+            }
+
+           var qntsw = $("#qntsw").val(),
+               totalsw = $("#totalsw").val(),
+                Amountsw = (parseFloat(qntsw) * parseInt(totalsw));
+
+           $("#netAmountsw").val(Amountsw);
+        };
+
+
+        //Add Multiple Order.
+        $("#addToListsw").click(function (e) {
+            e.preventDefault();
+
+            if ($.trim($("#tul").val()) == "" || $.trim($("#arrad").val()) == "" ||
+                $.trim($("#kocchor").val()) == "" || $.trim($("#hip").val()) == "") return;
+
+            //|| $.trim($("#discount").val()) == "" || $.trim($("#bonusQnt").val()) == "" || $.trim($("#batch").val()) == "" || $.trim($("#pVAT").val()) == ""
+            
+            var tul = $("#tul").val(),
+                arrad = $("#arrad").val(),
+                kocchor = $("#kocchor").val(),
+                hip = $("#hip").val(),
+                khetab = $("#khetab").val(),
+                ibad = $("#ibad").val(),
+                ordun = $("#ordun").val(),
+                orgoba = $("#orgoba").val(),
+                gher = $("#gher").val(),
+                throat = $("#throat").val(),
+                shelha = $("#shelha").val(),
+                mohra = $("#mohra").val(),
+                modelStyle = $("#modelStyle").val(),
+                qntsw = $("#qntsw").val(),
+                totalsw = $("#totalsw").val(),
+
+                netAmountsw = $("#netAmountsw").val(),
+
+                detailsTableBodysw = $("#serviceInvoiceDetails tbody");
+
+            if (isNaN(bonusQnt) || $.trim($("#bonusQnt").val()) == "") {
+                bonusQnt = 0;
+            };
+ 
+                            
+            var productItemsw = 
+                 '<tr><td witdh="23%"> <div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"> <label>Tul Long:</label> </div> <div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + tul + '" id="tul"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Arrad Body:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + arrad + '" id="arrad"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Kocchor Waist:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + kocchor + '" id="kocchor"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Hip:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + hip + '" id="hip"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div></td><td witdh="23%"><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Khetab Shoulder:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + khetab + '" id="khetab" class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Ibad Mohra:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + ibad + '" id="ibad" class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Ordun Hand:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + ordun + '" id="ordun"  class="form-group" readonly style="width:100%;border:inherit;" /></div> </div> <div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Orgoba Throat:</label> </div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + orgoba + '" id="orgoba"  class="form-group" readonly style="width:100%;border:inherit;" /> </div></div></td><td witdh="23%"><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Gher Enclorure:</label> </div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + gher + '" id="gher"  class="form-group" readonly style="width:100%;border:inherit;" /> </div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Orgoba Throat:</label> </div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + throat + '" id="throat"  class="form-group" readonly style="width:100%;border:inherit;" /> </div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Shelha:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + shelha + '" id="shelha"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Ibad Mohra:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + mohra + '" id="mohra"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div></td><td witdh="23%"><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Model No:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + modelStyle + '" id="modelStyle"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"> <div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Quantity:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + qntsw + '" id="qntsw"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"> <div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Rate:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + totalsw + '" id="totalsw"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"> <div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Total Amount:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + netAmountsw + '" id="netAmountsw"  class="form-group" readonly style="width:100%;border:inherit;" /></div></div> </td><td width="8%"><button data-itemId="0" type="button" class="deleteItem btn btn-default glyphicon glyphicon-remove"></button></td></tr>'
+
+            detailsTableBodysw.append(productItemsw);
+            clearItemsw();
+            invoiceAmount();
+
+
+        });
+        function clearItemsw() {
+            $("#tul").val('');
+            $("#arrad").val('');
+            $("#kocchor").val('');
+            $("#hip").val('');
+            $("#khetab").val('');
+            $("#ibad").val('');
+            $("#ordun").val('');
+            $("#orgoba").val('');
+            $("#gher").val('');
+            $("#throat").val('');
+            $("#shelha").val('');
+            $("#mohra").val('');
+            $("#modelStyle").val('');
+            $("#qntsw").val('');
+            $("#totalsw").val('');
+            $("#netAmountsw").val('');
+        }
+        function invoiceAmount() {
+            var sumVal = 0;
+            var sumValqnt = 0;
+            var sumValBonusqnt = 0;
+            var vatAmount = 0;
+            var table = document.getElementById("detailsTable");
+            for (var i = 1; i < table.rows.length; i++) {
+                sumVal = sumVal + parseInt(table.rows[i].cells[8].innerHTML);
+            }
+            for (var i = 1; i < table.rows.length; i++) {
+                sumValqnt = sumValqnt + parseInt(table.rows[i].cells[3].innerHTML);
+            }
+            for (var i = 1; i < table.rows.length; i++) {
+                sumValBonusqnt = sumValBonusqnt + parseInt(table.rows[i].cells[10].innerHTML);
+            }
+            for (var i = 1; i < table.rows.length; i++) {
+                vatAmount = vatAmount + parseInt(table.rows[i].cells[11].innerHTML);
+            }
+            sumValqnt = sumValqnt + sumValBonusqnt
+            $(".total").val(sumVal);
+            $(".totalQNT").val(sumValqnt);
+            $(".totalVAT").val(vatAmount);
+            if (isNaN($(".total").val()) || $.trim($(".total").val()) == "") {
+                $(".total").val(0);
+            }
+            if (isNaN($(".totalVAT").val()) || $.trim($(".totalVAT").val()) == "") {
+                $(".totalVAT").val(0);
+            }
+            if (isNaN($(".addAmount").val()) || $.trim($(".addAmount").val()) == "") {
+                $(".addAmount").val(0);
+            }
+            if (isNaN($(".lessAmount").val()) || $.trim($(".lessAmount").val()) == "") {
+                $(".lessAmount").val(0);
+            }
+            var invoicedTotal = (parseFloat($(".total").val()) + parseFloat($(".totalVAT").val()) + parseFloat($(".addAmount").val())) - parseFloat($(".lessAmount").val())
+            $(".invoicedTotal").val(invoicedTotal)
+        }
+        function clearItem() {
+            $("#barcode").val('');
+            $("#productName").val('');
+            $("#quantity").val('');
+            $("#rate").val('');
+            $("#discount").val('');
+            $("#bonusQnt").val('');
+            $("#batch").val('');
+            $('#pVAT').val('');
+        }
+        $(document).on('click', 'button.deleteItem', function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            if ($(this).attr('data-itemId') == "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                    invoiceAmount();
+                });
+            }
+        });
+
+        var config = {
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-rtl': { rtl: true },
+            '.chosen-select-width': { width: '95%'}
+        }
+        for (var selector in config) {
+            $('.customerList').chosen(config['.customerList']);
+        }
+        for (var selector in config) {
+            $('.LedgerList').chosen(config['.LedgerList']);
+        }
+        for (var selector in config) {
+            $('.BranchList').chosen(config['.BranchList']);
+        }
+        for (var selector in config) {
+            $('.WarehouseList').chosen(config['.WarehouseList']);
+        }
+        for (var selector in config) {
+            $('.SalesAgentList').chosen(config['.SalesAgentList']);
+        }
+        for (var selector in config) {
+            $('.productlist').chosen(config['.productlist']);
+        }
+
+        /* country dropdown list*/
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Country/GetCountryList",
+                contentType: "application/json; charset=utf-8",
+                datatype: 'json',
+                success: function (response) {
+                    $("#Country").empty();
+                    $("#Country").append(response);
+                },
+                error: function (data) { }
+            });
+        });
+        /* State dropdown list*/
+        $(document).ready(function() {
+
+            $("#Country").change(function() {
+
+                var countryId = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Country/GetStateList?CountryId=" + countryId,
+                    contentType: "html",
+                    success: function(response) {
+                        $("#State").empty();
+                        $("#State").append(response);
+
+                    }
+
+                });l
+
+            });
+
+        });
+        /* City dropdown list*/
+        $(document).ready(function() {
+
+            $("#State").change(function() {
+
+                var stateId = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Country/GetCityList?StateId=" + stateId,
+                    contentType: "html",
+                    success: function(response) {
+                        $("#City").empty();
+                        $("#City").append(response);
+
+                    }
+
+                });
+
+            });
+
+        });
+
+
+        //After Click Save Button Pass All Data View To Controller For Save Database
+        function saveOrder(data) {
+            return $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/Order/SalesOrder",
+                data: data,
+                success: function (result) {
+                    alert(result);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error!")
+                }
+            });
+        }
+        //Collect Multiple Order List For Pass To Controller
+        $("#saveOrder").click(function (e) {
+            e.preventDefault();
+
+            var order = {};
+            order.OrderDate= $("#orderdate").val(),
+            order.CustomerID = $("#customer").val(),
+            order.DueDate = $("#duedate").val(),
+            order.BranchId = $("#branch").val(),
+            order.WarehouseId = $("#warehouse").val(),
+            order.TotalQNT = $("#totalQNT").val(),
+            order.InvoicedAmount = $("#invoicedTotal").val()
+
+            var orderArr = [];
+            orderArr.length = 0;
+            $.each($("#detailsTable tbody tr"), function () {
+                orderArr.push({
+                    productCode: $(this).find('td:eq(0)').html(),
+                    productName: $(this).find('td:eq(1)').html(),
+                    productDesc: $(this).find('td:eq(2)').html(),
+                    quantity: $(this).find('td:eq(3)').html(),
+                    rate: $(this).find('td:eq(4)').html(),
+                    productUnit: $(this).find('td:eq(5)').html(),
+                    tAmount: $(this).find('td:eq(6)').html(),
+                    pFdiscount: $(this).find('td:eq(7)').html(),
+                    netTotal: $(this).find('td:eq(8)').html(),
+                    batch: $(this).find('td:eq(9)').html(),
+                    bonusQnt: $(this).find('td:eq(10)').html(),
+                    vatamount: $(this).find('td:eq(11)').html(),
+                    barcode: $(this).find('td:eq(12)').html()
+                });
+            });
+
+            var data = JSON.stringify({
+                orderdata: orderArr,
+                orders:order
+            });
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url:'@Url.Action("SalesOrder")',
+                data: data,
+                //data: '{orders: ' + JSON.stringify(order) + '}',
+                success: function (result) {
+                    alert(result);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error!")
+                }
+            });
+        });
+    </script>
+}
+

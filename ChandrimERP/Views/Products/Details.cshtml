@@ -1,0 +1,208 @@
+﻿@model ChandrimERP.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .pagesize {
+        width: 18.5cm;
+        margin: auto;
+    }
+
+    .details {
+        padding: 0px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .details .title {
+        color: #000080;
+        font-size: 17px;
+        font-family: consolas;
+    }
+
+    .details .title2 {
+        color: #000080;
+        font-size: 15px;
+        font-family: comic sans ms;
+    }
+
+    .details .desc {
+        font-weight: bold;
+        padding-left: 15px;
+        font-size: 17px;
+    }
+
+    .details .desc2 {
+        font-weight: bold;
+        color: White;
+        padding-right: 10px;
+        font-size: 15px;
+    }
+
+    .detailsheader h2 {
+        margin: 0px;
+    }
+
+    .detailscol {
+        padding: 15px;
+    }
+
+    .details .img {
+        width: 300px;
+        height: auto;
+    }
+
+    .chart1 .imgs {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .chart1 {
+        width: 6cm;
+        float: left;
+        padding: 15px;
+        height: 100%;
+        background-color: #9bafde;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+    }
+
+    .chart2 {
+        padding: 15px;
+        width: 10cm;
+        float: left;
+        margin-left: 6cm;
+        min-height: 500px;
+    }
+
+    .chart1 h4 {
+        text-align: center;
+    }
+</style>
+<div class="pagesize">
+    <div class="card-style">
+        <div class="card-style-body details">
+            <div class="chart1">
+                <div>
+                    @if (Model.ImageUrl == null)
+                    {
+                        <img src="~/Image/Product/product.png" class="user-image img-circle imgs" alt="User Image">
+                    }
+                    else
+                    {
+                        var imagePath = "";
+                        imagePath = Url.Content(Model.ImageUrl);
+
+                        if (imagePath != "")
+                        {
+                            <img src="@imagePath" class="user-image img-circle imgs" alt="User Image">
+                        }
+                    }
+                </div>
+                <h4 class="title2">Company-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.Company.CompanyName)</h4>
+                <h4 class="title2">Product Brand Name-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.ProductBrand.Name)</h4>
+                <h4 class="title2">Product Cetagory Name-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.ProductCategory.Name)</h4>
+                <h4></h4>
+                <h4></h4>
+                <h4></h4>
+            </div>
+
+            <div>
+                <div class="chart2">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductCode)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductCode)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">Measurement Unit Name</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductMeasureUnit.Name)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">Product Rack Name</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductRack.Name)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Supplier.SupplierCode)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Supplier.SupplierCode)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductName)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductName)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">Model Name</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ModelName)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductType)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductType)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductDescription)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductDescription)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductSize)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductSize)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductColor)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductColor)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductWeight)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductWeight)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductQuantity)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductQuantity)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductVolume)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductVolume)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductPrice)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductPrice)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductManufacture)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductManufacture)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.ProductExpireDate)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.ProductExpireDate)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Vat)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Vat)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Remarks)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Remarks)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Barcode)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.Barcode)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

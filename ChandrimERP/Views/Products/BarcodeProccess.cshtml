@@ -1,0 +1,59 @@
+﻿<style type="text/css">
+    .card-style {
+        padding: 10px 0px;
+        text-align: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    form {
+        padding: 5px;
+    }
+
+    h4 {
+        padding: 5px;
+        color: darkblue;
+        font-size: 128%;
+        font-weight: bold;
+        margin: 0px;
+    }
+
+    span {
+        color: green;
+    }
+
+    #sub {
+        background-color: #0094ff;
+        color: white;
+        border-radius: 5px;
+    }
+
+    #qnt {
+        width: 300px;
+    }
+</style>
+<div class="container cus">
+
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <div class="card-style">
+            <h4>Product Name: <span> @ViewBag.ProductName</span></h4>
+            <h4>Product Model: <span>@ViewBag.ProductModel</span></h4>
+            <h4>Product Price: <span>@ViewBag.ProductPrice</span></h4>
+            <form method="get" action="/Products/BarcodeGen">
+                <input id="pId" name="id" type="hidden" value="@ViewBag.Data" />
+                <input id="qnt" name="qnt" min="1" max="300" placeholder="Enter Number Of Copies(1-300)" type="number" />
+                <input type="submit" id="sub" onclick="getList()" value="Generate Barcode" />
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+
+
+
+

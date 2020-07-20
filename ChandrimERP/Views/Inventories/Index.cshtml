@@ -1,0 +1,111 @@
+﻿@model IEnumerable<ChandrimERP.Models.Inventory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Warehouse.WarehouseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BalanceQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AleartLavel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemMRP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemUnitCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemEditionalCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemTotalCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemAvrageCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Warehouse.WarehouseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalanceQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AleartLavel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemMRP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemUnitCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemEditionalCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemTotalCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemAvrageCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

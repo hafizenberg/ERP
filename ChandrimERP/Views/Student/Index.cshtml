@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Please enter the details below.</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group col-md-5">
+                <label>Student Name</label>
+                <input type="text" name="StudentName" id="StudentName" class="form-control" placeholder="Enter Student Name" required="" />
+            </div>
+            <div class="form-group col-md-5">
+                <label>Student Address</label>
+                <input type="text" name="StudentAddress" id="StudentAddress" class="form-control" placeholder="Enter Student Address" required="" />
+            </div>
+            <div class="form-group col-md-5">
+                <label>Student Address</label>
+                <input type="text" name="StudentAddress" id="studentNote" class="form-control" placeholder="Enter Student Address" required="" />
+            </div>
+            <div class="form-group col-md-1">
+                <div style="float: right; display:inline-block;">
+                    <input class="btn btn-primary" name="submitButton" id="btnSave" value="Save" type="button">
+                    <input class="btn btn-primary" name="submitButton" id="btnAdd" value="Add" type="button">
+                </div>
+            </div>
+        </div>
+    </div><hr />
+    <table id="tblStudentlist" class="table table-bordered table-striped table-responsive table-hover">
+        <thead>
+            <tr>
+                <th align="left" class="productth">ID</th>
+                <th align="left" class="productth">Student Name</th>
+                <th align="left" class="productth">Student Address</th>
+                <th align="left" class="productth">Student Note</th>
+                <th align="left" class="productth">Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <table id="tblStudent" class="table table-bordered table-striped table-responsive table-hover">
+        <thead>
+            <tr>
+                <th align="left" class="productth">ID</th>
+                <th align="left" class="productth">Student Name</th>
+                <th align="left" class="productth">Student Address</th>
+                <th align="left" class="productth">Student Note</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>  
+
+@section Scripts
+{
+    <script type="text/javascript">
+    $(function () {
+       LoadData();
+        $("#btnSave").click(function () {
+            var std = {};
+            std.studentName = $("#StudentName").val();
+            std.studentAddress = $("#StudentAddress").val();
+            std.studentNote = $("#studentNote").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("createStudent")',
+                data: '{std5: ' + JSON.stringify(std) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    //alert("Data has been added successfully.");
+                    LoadData();
+                    $("#StudentName").val('');
+                    $("#StudentAddress").val('');
+                },
+                error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+           // alert("post submited");
+            return false;
+        });
+        
+    });
+    function LoadData() {
+       // $("#tblStudent tbody tr").remove();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("getStudent")',
+            dataType: 'json',
+            data: { id: '' },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>"
+                    + "<td class='prtoducttd'>" + item.studentID + "</td>"
+                    + "<td class='prtoducttd'>" + item.studentName + "</td>"
+                    + "<td class='prtoducttd'>" + item.studentAddress + "</td>"
+                    + "<td class='prtoducttd'>" + item.studentNote + "</td>"
+                    +'<td><div class="btn-group">'
+                    +'<button type="button" class="btn btn-default glyphicon glyphicon-pencil"></button>'
+                    + '<button  data-itemId="0" href="#"  type="button" class="delete btn btn-default glyphicon glyphicon-remove"></button>'
+                    +'</div></td>'
+                    + "</tr>";
+                    $('#tblStudent tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
+        $(function () {
+           // LoadData();
+            $("button.delete").click(function (studentID) {
+
+                var std = {};
+                std.studentName = $("#StudentName").val();
+                std.studentAddress = $("#StudentAddress").val();
+                $.ajax({
+                    url: "/Student/DeleteStudent/" + studentID,
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        loadData();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+                // alert("post submited");
+                return false;
+            });
+        });
+    </script>
+}  

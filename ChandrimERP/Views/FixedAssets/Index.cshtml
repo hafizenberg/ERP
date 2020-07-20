@@ -1,0 +1,224 @@
+﻿<h2>@ViewBag.Title</h2>
+
+
+<style>
+    .dataTables_length label {
+        margin-top: 15px;
+        color: #000080;
+    }
+
+    .Button {
+        padding: 5px 10px;
+        margin: 5px;
+        background-color: #4b0082;
+        color: White;
+        border-radius: 15%;
+    }
+
+        .Button:hover {
+            background-color: #00bfff;
+            color: white;
+        }
+
+    .table-1 {
+        color: #00008b;
+        font-weight: bold;
+        float: left;
+    }
+
+        .table-1 tr {
+            float: left;
+        }
+
+    .dataTables_filter input {
+        padding: 5px 2px;
+        border-radius: 5px;
+    }
+
+    #my_table th {
+        background-color: #d2d6de;
+        color: black;
+    }
+
+    .dt-buttons {
+        float: left;
+    }
+</style>
+
+<table id="my_table" class="display">
+
+    <thead>
+        <tr>
+            <th>Branch Name</th>
+            <th>Company Name</th>
+            <th>Warehouse Name</th>
+            <th>Description</th>
+            <th>Asset Code</th>
+            <th>Asset Value</th>
+            <th>Asset Life</th>
+            <th>Depreciation Rate</th>
+            <th>Depreciation EffectFrom</th>
+            <th>Salvage Value</th>
+            <th>Purchase Date</th>
+            <th>Warrenty Details</th>
+        </tr>
+    </thead>
+
+</table>
+
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.18/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+@section scripts{
+    <script src="~/Content/datatables.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#my_table").DataTable({
+                "ajax": {
+                    "url": "/FixedAssets/GetList",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                //"ajax" : {
+                //    type: "POST",
+                //    url: "/FixedAssets/GetList",
+                //    data: '{a:'+ 1 +' }',
+                //    contentType: "application/json; charset=utf-8",
+                //    dataType: "json",
+                //},
+
+
+                "columns": [
+                    { "data": "BranchNames" },
+                    { "data": "CompanyNames" },
+                    { "data": "WarehouseNames" },
+                    { "data": "Description" },
+                    { "data": "AssetCode" },
+                    { "data": "AssetValue" },
+                    { "data": "AssetLife" },
+                    { "data": "DepreciationRate" },
+                    {"data": "DepreciationEffectFrom",
+                        "type": "date ",
+                        "render": function (value) {
+                            if (value === null) return "";
+                            var pattern = /Date\(([^)]+)\)/;
+                            var results = pattern.exec(value);
+                            var dt = new Date(parseFloat(results[1]));
+
+                            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                        }
+                    },
+                    { "data": "SalvageValue" },
+                    {"data": "PurchaseDate",
+                        "type": "date ",
+                        "render": function (value) {
+                            if (value === null) return "";
+                            var pattern = /Date\(([^)]+)\)/;
+                            var results = pattern.exec(value);
+                            var dt = new Date(parseFloat(results[1]));
+
+                            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                        }
+                    },
+                    { "data": "WarrentyDetails" }
+                ],
+                "dom": "lrBftip",
+                "buttons": [
+                    {
+                        extend: 'copy',
+                        className: 'Button',
+                        text: '<i class="fa fa-copy" aria-hidden="true"></i> Copy'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel'
+                    },
+                    {
+                        extend: 'pdf',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Pdf'
+                    },
+                    {
+                        extend: 'csv',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-text"></i> CSV'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'Button',
+                        text :'<i class="fa fa-print" aria-hidden="true"></i> Print'
+                    }
+
+                ]
+            });
+
+        });
+
+
+
+
+
+
+
+
+        /* Custom filtering function which will search data in column four between two values */
+        //$.fn.dataTable.ext.search.push(
+        //    function (settings, data, dataIndex) {
+        //        var min = parseInt($('#min2').val(), 10);
+        //        var max = parseInt($('#max2').val(), 10);
+        //        var age = parseFloat(data[1]) || 0; // use data for the age column
+
+        //        if ((isNaN(min) && isNaN(max)) ||
+        //             (isNaN(min) && age <= max) ||
+        //             (min <= age && isNaN(max)) ||
+        //             (min <= age && age <= max)) {
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //);
+        //$(document).ready(function () {
+        //    var table = $('#my_table').DataTable();
+
+        //    // Event listener to the two range filtering inputs to redraw on input
+        //    $('#min2, #max2').keyup(function () {
+        //        table.draw();
+        //    });
+        //});
+
+    </script>
+}
+
+
+
+@*<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <a href="@Url.Action("Create", "FixedAssets")" id="Add" class="btn default"><i class="glyphicon glyphicon-plus"></i>&nbsp;Create New Asset</a>
+                        </div>
+                        <div class="tools">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+

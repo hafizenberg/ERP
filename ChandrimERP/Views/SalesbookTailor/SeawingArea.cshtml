@@ -1,0 +1,777 @@
+﻿
+
+@model ChandrimERP.Models.TailorOrderVM
+@{
+    ViewBag.Title = "Tailor Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .d-flex {
+        display: flex;
+    }
+
+    .just-center {
+        justify-content: center;
+    }
+
+    .just-end {
+        justify-content: flex-end;
+    }
+
+    .just-bet {
+        justify-content: space-between;
+    }
+
+    .just-start {
+        justify-content: flex-start;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card-style">
+        <div class="card-style-header">
+            Tailor Invoice
+        </div>
+        <div class="card-style-body">
+            <div class="row">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @Value = ViewBag.FirstName, @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control ", @Value = @ViewBag.UserName, @readonly = "readonly", @id = "username" } })
+                                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @id = "orderdate" } })
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-md-8">
+                                @Html.HiddenFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                <div style="display: flex; justify-content: space-between;">
+                                    @Html.DropDownList("CustomerID", null, "Select Customer", htmlAttributes: new { @class = "form-control customerList", @id = "customer" })
+                                    <button id="btnShowModal" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LedgerId, "LedgerId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("LedgerId", null, htmlAttributes: new { @class = "form-control LedgerList" })
+                                @Html.ValidationMessageFor(model => model.LedgerId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @id = "duedate" } })
+                                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control BranchList", @id = "branch" })
+                                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.WarehouseId, "WarehouseId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("WarehouseId", null, htmlAttributes: new { @class = "form-control WarehouseList", @id = "warehouse" })
+                                @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "SalesAgentId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SalesAgentId", null, htmlAttributes: new { @class = "form-control SalesAgentList" })
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "TailorList", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("TailorList", null, htmlAttributes: new { @class = "form-control SalesAgentList" })
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Prevous Balance</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.LastOrderDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "closingbalance" } })
+                                @Html.ValidationMessageFor(model => model.LastOrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @id = "orderdate" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="d-flex just-bet">
+                            <label>Shoulder</label>
+                            <input type="text" value="" id="shoulder" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Neck</label><br />
+                            <input type="text" value="" id="neck" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Bust</label><br />
+                            <input type="text" value="" id="bust" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Hip</label><br />
+                            <input type="text" value="" id="hip" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Arm Hole</label><br />
+                            <input type="text" value="" id="armhole" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Muscle</label><br />
+                            <input type="text" value="" id="muscle" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Elbow</label><br />
+                            <input type="text" value="" id="elbow" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Cuff</label><br />
+                            <input type="text" value="" id="cuff" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Sleeve Length </label><br />
+                            <input type="text" value="" id="sleevelength" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Length</label><br />
+                            <input type="text" value="" id="length" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>shoulder to Hip</label><br />
+                            <input type="text" value="" id="shouldertohip" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Pant length</label><br />
+                            <input type="text" value="" id="pantlength" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                            <div class="d-flex just-bet">
+                                <label>Waist</label><br />
+                                <input type="text" value="" id="waist" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                            </div>
+                            <div class="d-flex just-bet">
+                                <label>Leg Opening</label><br />
+                                <input type="text" value="" id="Legopening" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                            </div>
+                        </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Qty</label><br />
+                            <input type="text" value="" id="qntsw" class="form-group" style="width: 50px; padding:0px 5px;" onChange="totalAmountsw()" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Rate</label><br />
+                            <input type="text" value="" id="totalsw" class="form-group" style="width: 50px; padding:0px 5px;" onChange="totalAmountsw()" />
+                        </div>
+                        <div>
+                            <label>Total Amount</label><br />
+                            <input type="text" value="" id="netAmountsw" class="form-group" readonly; style="width: 100%; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex just-center" style="align-items:center; height:100px">
+
+                        <div style="padding: 10px;width:80%; text-align: center;">
+                            <button id="addToListsw" type="button" class="btn btn-basic" style="width: 100%; padding: 0px 5px ;">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <table id="seawingInvoiceDetails">
+                    <thead>
+                        <h1 class="text-center" style="font-weight: bold; text-transform: uppercase">Order Description Details</h1>
+                        <hr style="border-top: 1px solid black;" />
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Narration:</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" id="Narration" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control total", @readonly = "readonly", id = "TotalAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Seawing Amount:</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly class="form-control totalsw" id="TotalAmountSW" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Less:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LessAmount, new { htmlAttributes = new { @class = "form-control lessAmount", onChange = "invoiceAmount()", @id = "LessAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Vat Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.VatAmount, new { htmlAttributes = new { @class = "form-control totalVAT", @readonly = "readonly", @id = "VatAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Add:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.AddAmount, new { htmlAttributes = new { @class = "form-control addAmount", onChange = "invoiceAmount()", @id = "AddAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Net Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.InvoicedAmount, new { htmlAttributes = new { @class = "form-control invoicedTotal", @readonly = "readonly", @id = "invoicedTotal" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-style-footer">
+            <div class="btn-group left">
+                <button type="button" class="btn btn-default ">@Html.ActionLink("Find", "SalesInvoiceReport")</button>
+                <button type="button" class="btn btn-default ">@Html.ActionLink("Report", "SalesInvoiceReport")</button>
+            </div>
+            <div class="btn-group right">
+                <button type="button" class="btn btn-default" id="saveOrder">Save</button>
+                <button type="button" class="btn btn-default "><a href="@Url.Action("Index", "Home")"><span>Close</span></a></button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" tabindex="-1" id="createCustomer"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card-style-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">Create New Customer</h4>
+            </div>
+            <div class="card-style-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.CompanyId, "CompanyId", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "CompanyId" })
+                            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContactFirstName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ContactFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContactLastName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ContactLastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactLastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label " })
+                            @Html.EnumDropDownListFor(model => model.Genders, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Genders, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.OpeningBlance, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.OpeningBlance, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OpeningBlance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.AddressLineOne, htmlAttributes: new { @class = "control-label " })
+                            @Html.EditorFor(model => model.AddressLineOne, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AddressLineOne, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="card-style-footer">
+                <div class="btn-group right">
+                    <button type="submit" class="btn btn-outline-primary button button4" id="saveCousromer">Create</button>
+                    <button type="button" id="btnHideModal" class="btn btn-outline-primary button button4"> Close </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                //LoadData();
+                $("#saveCousromer").click(function () {
+                    var std = {};
+                    std.CompanyId = $("#CompanyId").val();
+                    std.CompanyName = $("#CompanyName").val();
+                    std.ContactFirstName = $("#ContactFirstName").val();
+                    std.ContactLastName = $("#ContactLastName").val();
+                    std.OpeningBlance = $("#OpeningBlance").val();
+                    std.Genders = $("#Genders").val();
+                    std.Phone = $("#Phone").val();
+                    std.Email = $("#Email").val();
+                    std.WebPage = $("#WebPage").val();
+                    std.Country = $("#Country").val();
+                    std.State = $("#State").val();
+                    std.City = $("#City").val();
+                    std.AddressLineOne = $("#AddressLineOne").val();
+                    std.AddressLineTwo = $("#AddressLineTwo").val();
+                    std.Status = $("#Status").val();
+                    std.Notes = $("#Notes").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/SalesbookTailor/addcustomer",
+                        data: '{customer: ' + JSON.stringify(std) + '}',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            $('#createCustomer').modal('hide');
+                            alert("Data has been added successfully.");
+                            location.reload();
+                        },
+                        error: function () {
+                            alert("Error while inserting data");
+                        }
+                    });
+                    return false;
+                });
+
+            });
+
+            /* For Show & hide Modal*/
+            $(document).ready(function () {
+                $("#btnShowModal").click(function () {
+                    $("#createCustomer").modal('show');
+                });
+
+                $("#btnHideModal").click(function () {
+                    $("#createCustomer").modal('hide');
+                });
+            });
+
+            function totalAmountsw() {
+
+                if (isNaN($("#qntsw").val()) || $.trim($("#qntsw").val()) == "") {
+                    $("#qntsw").val(0);
+                }
+                if (isNaN($("#totalsw").val()) || $.trim($("#totalsw").val()) == "") {
+                    $("#totalsw").val(0);
+                }
+
+                var qntsw = $("#qntsw").val(),
+                    totalsw = $("#totalsw").val(),
+                     Amountsw = (parseFloat(qntsw) * parseInt(totalsw));
+
+                $("#netAmountsw").val(Amountsw);
+            };
+
+
+
+            //Add Multiple Order.
+            $("#addToListsw").click(function (e) {
+                e.preventDefault();
+
+                // if ($.trim($("#shoulder").val()) == "" || $.trim($("#neck").val()) == "" ||
+                //  $.trim($("#bust").val()) == "" || $.trim($("#hip").val()) == "" || $.trim($("#qntsw").val()) == "" || $.trim($("#totalsw").val()) == "") return;
+
+                //|| $.trim($("#discount").val()) == "" || $.trim($("#bonusQnt").val()) == "" || $.trim($("#batch").val()) == "" || $.trim($("#pVAT").val()) == ""
+
+                var shoulder = $("#shoulder").val(),
+                    neck = $("#neck").val(),
+                    bust = $("#bust").val(),
+                    hip = $("#hip").val(),
+                    armhole = $("#armhole").val(),
+                    muscle = $("#muscle").val(),
+                    elbow = $("#elbow").val(),
+                    cuff = $("#cuff").val(),
+                    sleevelength = $("#sleevelength").val(),
+                    length = $("#length").val(),
+                    shouldertohip = $("#shouldertohip").val(),
+                    pantlength = $("#pantlength").val(),
+                    waist = $("#waist").val(),
+                    Legopening = $("#Legopening").val(),
+                    qntsw = $("#qntsw").val(),
+                    totalsw = $("#totalsw").val(),
+
+                    netAmountsw = $("#netAmountsw").val(),
+
+                    detailsTableBodysw = $("#seawingInvoiceDetails tbody");
+
+
+                var productItemsw =
+                     '<tr><td witdh="23%"> <div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"> <label>SHOULDER:</label> </div> <div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + shoulder + '" id="shoulder"  class="form-group shoulder" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>NECK:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + neck + '" id="neck"  class="form-group neck" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>BUST:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + bust + '" id="bust"  class="form-group bust" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Hip:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + hip + '" id="hip"  class="form-group hip" readonly style="width:100%;border:inherit;" /></div></div></td><td witdh="23%"><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>ARM HOLE:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + armhole + '" id="armhole" class="form-group armhole" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>MUSCLE:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + muscle + '" id="muscle" class="form-group muscle" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>ELBOW:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + elbow + '" id="elbow"  class="form-group elbow" readonly style="width:100%;border:inherit;" /></div> </div> <div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>CUFF:</label> </div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + cuff + '" id="cuff"  class="form-group cuff" readonly style="width:100%;border:inherit;" /> </div></div></td><td witdh="23%"><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>SLEEVE LENGTH:</label> </div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + sleevelength + '" id="sleevelength"  class="form-group sleevelength" readonly style="width:100%;border:inherit;" /> </div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>LENGTH:</label> </div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + length + '" id="length"  class="form-group length" readonly style="width:100%;border:inherit;" /> </div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>SHOULDER TO HIP:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + shouldertohip + '" id="shouldertohip"  class="form-group shouldertohip" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>PANT LENGTH:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + pantlength + '" id="pantlength"  class="form-group pantlength" readonly style="width:100%;border:inherit;" /></div></div></td><td witdh="23%"><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>WAIST:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + waist + '" id="waist"  class="form-group waist" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"><div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>LEG OPENING:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + Legopening + '" id="Legopening"  class="form-group Legopening" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"> <div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Quantity:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + qntsw + '" id="qntsw"  class="form-group Qty" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"> <div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Rate:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + totalsw + '" id="totalsw"  class="form-group Rate" readonly style="width:100%;border:inherit;" /></div></div><div class="col-md-12"> <div class="col-md-8 text-right" style="font-weight:bold;text-transform:uppercase;width:70%;"><label>Total Amount:</label></div><div class="col-md-4 text-left" style="font-weight:bold;text-transform:uppercase;width:30%;padding:0px!important"><input type="text" value="' + netAmountsw + '" id="netAmountsw"  class="form-group totalpricesw TotalAmountSe" readonly style="width:100%;border:inherit;" /></div></div> </td><td width="8%"><button data-itemId="0" type="button" class="deleteItem btn btn-default glyphicon glyphicon-remove"></button></td></tr>'
+
+                detailsTableBodysw.append(productItemsw);
+                clearItemsw();
+                invoiceAmount();
+
+
+            });
+
+            function clearItemsw() {
+                $("#shoulder").val('');
+                $("#neck").val('');
+                $("#bust").val('');
+                $("#hip").val('');
+                $("#armhole").val('');
+                $("#muscle").val('');
+                $("#elbow").val('');
+                $("#cuff").val('');
+                $("#sleevelength").val('');
+                $("#length").val('');
+                $("#shouldertohip").val('');
+                $("#pantlength").val('');
+                $("#waist").val('');
+                $("#Legopening").val('');
+                $("#qntsw").val('');
+                $("#totalsw").val('');
+                $("#netAmountsw").val('');
+            }
+
+
+            function invoiceAmount() {
+                var sumVal = 0;
+                var sumValqnt = 0;
+                var sumValBonusqnt = 0;
+                var sumDiscount = 0;
+                var vatAmount = 0;
+                var sum = 0;
+                $('.totalpricesw').each(function () {
+                    sum += parseFloat($(this).val());
+                });
+                var totalsw = sum;
+                $(".total").val(sumVal);
+                $(".totalsw").val(totalsw);
+                if (isNaN($(".total").val()) || $.trim($(".total").val()) == "") {
+                    $(".total").val(0);
+                }
+                if (isNaN($(".totalVAT").val()) || $.trim($(".totalVAT").val()) == "") {
+                    $(".totalVAT").val(0);
+                }
+                if (isNaN($(".addAmount").val()) || $.trim($(".addAmount").val()) == "") {
+                    $(".addAmount").val(0);
+                }
+                if (isNaN($(".lessAmount").val()) || $.trim($(".lessAmount").val()) == "") {
+                    $(".lessAmount").val(0);
+                }
+                var invoicedTotal = (parseFloat($(".total").val()) + parseFloat($(".totalsw").val()) + parseFloat($(".totalVAT").val()) + parseFloat($(".addAmount").val())) - parseFloat($(".lessAmount").val())
+                $(".invoicedTotal").val(invoicedTotal)
+            }
+            $(document).on('click', 'button.deleteItem', function (e) {
+                e.preventDefault();
+                var $self = $(this);
+                if ($(this).attr('data-itemId') == "0") {
+                    $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                        $(this).remove();
+                        invoiceAmount();
+                    });
+                }
+            });
+
+            var config = {
+                '.chosen-select-deselect': { allow_single_deselect: true },
+                '.chosen-select-no-single': { disable_search_threshold: 10 },
+                '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+                '.chosen-select-rtl': { rtl: true },
+                '.chosen-select-width': { width: '95%' }
+            }
+            for (var selector in config) {
+                $('.customerList').chosen(config['.customerList']);
+            }
+            for (var selector in config) {
+                $('.LedgerList').chosen(config['.LedgerList']);
+            }
+            for (var selector in config) {
+                $('.BranchList').chosen(config['.BranchList']);
+            }
+            for (var selector in config) {
+                $('.WarehouseList').chosen(config['.WarehouseList']);
+            }
+            for (var selector in config) {
+                $('.SalesAgentList').chosen(config['.SalesAgentList']);
+            }
+            for (var selector in config) {
+                $('.productlist').chosen(config['.productlist']);
+            }
+
+            /* country dropdown list*/
+            $(document).ready(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Country/GetCountryList",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: 'json',
+                    success: function (response) {
+                        $("#Country").empty();
+                        $("#Country").append(response);
+                    },
+                    error: function (data) { }
+                });
+            });
+            /* State dropdown list*/
+            $(document).ready(function () {
+
+                $("#Country").change(function () {
+
+                    var countryId = $(this).val();
+                    $.ajax({
+                        type: "Post",
+                        url: "/Country/GetStateList?CountryId=" + countryId,
+                        contentType: "html",
+                        success: function (response) {
+                            $("#State").empty();
+                            $("#State").append(response);
+
+                        }
+
+                    }); l
+
+                });
+
+            });
+            /* City dropdown list*/
+            $(document).ready(function () {
+
+                $("#State").change(function () {
+
+                    var stateId = $(this).val();
+                    $.ajax({
+                        type: "Post",
+                        url: "/Country/GetCityList?StateId=" + stateId,
+                        contentType: "html",
+                        success: function (response) {
+                            $("#City").empty();
+                            $("#City").append(response);
+
+                        }
+
+                    });
+
+                });
+
+            });
+
+            //Get Closing Balance
+            $(document).ready(function () {
+                $("#customer").change(function () {
+                    var customerid = $(this).val();
+                    $("#closingbalance").val(" ");
+                    $.ajax({
+                        type: "Post",
+                        url: "/SalesbookTailor/GetClosingBalance/" + customerid,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            var items = '';
+                            var int = 0;
+                            $.each(data, function (i, item) {
+                                $("#closingbalance").append($("#closingbalance").val(item.ClosinngBalance));
+                            });
+                        },
+                        error: function (ex) {
+                            var r = jQuery.parseJSON(response.responseText);
+                            alert("Message: " + r.Message);
+                            alert("StackTrace: " + r.StackTrace);
+                            alert("ExceptionType: " + r.ExceptionType);
+                        }
+                    });
+
+                });
+
+            });
+
+            //After Click Save Button Pass All Data View To Controller For Save Database
+            //Collect Multiple Order List For Pass To Controller
+            $("#saveOrder").click(function (e) {
+                e.preventDefault();
+                var r = confirm("Confirm to Submit!");
+                if (r == true) {
+                    saveData();
+                };
+            });
+
+            //Collect Multiple Order List For Pass To Controller
+            function saveData() {
+
+                var order = {};
+                order.OrderDate = $("#orderdate").val(),
+                order.CustomerID = $("#customer").val(),
+                order.DueDate = $("#duedate").val(),
+                order.BranchId = $("#branch").val(),
+                order.WarehouseId = $("#warehouse").val(),
+                order.LedgerId = $("#LedgerId").val(),
+                order.SalesAgentId = $("#SalesAgentId").val(),
+                order.Narration = $("#Narration").val(),
+                order.TotalQNT = $("#totalQNT").val(),
+                order.TotalDiscount = $("#totalDiscount").val(),
+                order.TotalAmount = $("#TotalAmount").val(),
+                order.SeawingAmount = $("#TotalAmountSW").val(),
+                order.VatAmount = $("#VatAmount").val(),
+                order.LaseAmount = $("#LessAmount").val(),
+                order.Addamount = $("#AddAmount").val(),
+                order.InvoicedAmount = $("#invoicedTotal").val()
+
+                var orderArr = [];
+                orderArr.length = 0;
+                $.each($("#detailsTable tbody tr"), function () {
+                    orderArr.push({
+                        ProductCode: $(this).find('td:eq(0)').html(),
+                        ProductName: $(this).find('td:eq(1)').html(),
+                        ProductDescription: $(this).find('td:eq(2)').html(),
+                        Quantity: $(this).find('td:eq(3)').html(),
+                        Rate: $(this).find('td:eq(4)').html(),
+                        MeasureUnit: $(this).find('td:eq(5)').html(),
+                        TotalAmount: $(this).find('td:eq(6)').html(),
+                        Discount: $(this).find('td:eq(7)').html(),
+                        NetTotal: $(this).find('td:eq(8)').html(),
+                        BatchOrSerial: $(this).find('td:eq(9)').html(),
+                        BonusQuantity: $(this).find('td:eq(10)').html(),
+                        VAT: $(this).find('td:eq(11)').html(),
+                        ProductId: $(this).find('td:eq(12)').html()
+                    });
+                });
+
+                var orderArrsw = [];
+                orderArrsw.length = 0;
+                $.each($("#seawingInvoiceDetails tbody tr"), function () {
+                    orderArrsw.push({
+                        Shoulder: $(this).find('td .shoulder:eq(0)').val(),
+                        Neck: $(this).find('td .neck:eq(0)').val(),
+                        Bust: $(this).find('td .bust:eq(0)').val(),
+                        Hip: $(this).find('td .hip:eq(0)').val(),
+                        ArmHole: $(this).find('td .armhole:eq(0)').val(),
+                        Muscle: $(this).find('td .muscle:eq(0)').val(),
+                        Elbow: $(this).find('td .elbow:eq(0)').val(),
+                        Cuff: $(this).find('td .cuff:eq(0)').val(),
+                        SleeveLength: $(this).find('td .sleevelength:eq(0)').val(),
+                        Length: $(this).find('td .length:eq(0)').val(),
+                        LenghtFromShoulderToHip: $(this).find('td .shouldertohip:eq(0)').val(),
+                        PantLength: $(this).find('td .pantlength:eq(0)').val(),
+                        Waist: $(this).find('td .waist:eq(0)').val(),
+                        LegOpening: $(this).find('td .Legopening:eq(0)').val(),
+                        Qty: $(this).find('td .Qty:eq(0)').val(),
+                        Rate: $(this).find('td .Rate:eq(0)').val(),
+                        TotalAmount: $(this).find('td .TotalAmountSe:eq(0)').val(),
+                    });
+                });
+
+                var data = JSON.stringify({
+                    orderdata: orderArr,
+                    orderdatasw: orderArrsw,
+                    orders: order
+                });
+
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/SalesbookTailor/SeawingArea",
+                    data: data,
+                    //data: '{orders: ' + JSON.stringify(order) + '}',
+                    success: function (result) {
+                        alert(result);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Insert Valid Data!");
+                    }
+                });
+            }
+        });
+    </script>
+}
+

@@ -1,0 +1,140 @@
+﻿@model  ChandrimERP.Models.JournalVm
+@{
+    ViewBag.Title = "Received from Customer";
+}
+<style>
+    .form-group select {
+        width: 100%;
+        padding: 5px;
+    }
+</style>
+<div class="container cus">
+    @if (ViewBag.ErrorMassage != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.ErrorMassage");
+            };
+        </script>
+    }
+    @if (ViewBag.SuccessMassage != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.SuccessMassage");
+                $('#payAmount').val(' ');
+            };
+        </script>
+    }
+    @using (Html.BeginForm(null, null, FormMethod.Post,
+                                                                 new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card-style">
+            <div class="card-style-header">
+                <h4 style="float:left">Received from Customer</h4>
+                <p class="text-success" style="float:right;margin-top:10px;"> @ViewBag.Massage</p>
+            </div>
+            <div class="card-style-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="col-md-6">
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @id = "date" } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchName, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.BranchName, (IEnumerable<SelectListItem>)ViewBag.BranchId, htmlAttributes: new { @class = "form-control", @id = "branchName" })
+                                @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger " })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.CustomerName, (IEnumerable<SelectListItem>)ViewBag.CustomerList, "Select Customer", htmlAttributes: new { @class = "form-control", @id = "closingbalance" })
+                                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger " })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PaymentType, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.PaymentType, (IEnumerable<SelectListItem>)ViewBag.LedgerList, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger " })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @id = "payAmount" } })
+                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Narration, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Narration, new { htmlAttributes = new { @class = "form-control", @id = "Narration" } })
+                                @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-6"> Previous Balance</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="getclosingbalance" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-6"> Current Balance</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="getCurentBalance" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-6">Selected Customer details</label>
+                            <div class="col-md-6">
+                                <textarea id="details" style="width: 250px; height: 150px; overflow-y: scroll;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="card-style-footer">
+                <div class="btn-group left">
+                    <button type="button" class="btn btn-outline-primary">@Html.ActionLink("Report", "ReceivedReport")</button>
+                </div>
+                <div class="btn-group right">
+                    <input type="submit" class="btn btn-outline-primary" id="saveData" onclick="return ConfirmMessage()" />
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            easyaccountReceived();
+        });
+        function ConfirmMessage() {
+            var alert = confirm("Are Sure submit!!");
+            if (alert) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+    </script>
+}

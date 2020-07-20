@@ -1,0 +1,184 @@
+﻿@model ChandrimERP.Models.FixedAsset
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>FixedAsset</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Branch.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Branch.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FixedAssetCategory.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FixedAssetCategory.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Warehouse.WarehouseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Warehouse.WarehouseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetLife)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetLife)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepreciationRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepreciationRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepreciationEffectFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepreciationEffectFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccumulateDepriciation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccumulateDepriciation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WrittenDownValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WrittenDownValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalvageValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalvageValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Node)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Node)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarrentyDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WarrentyDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

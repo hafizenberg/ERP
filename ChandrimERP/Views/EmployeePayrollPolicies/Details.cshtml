@@ -1,0 +1,58 @@
+﻿@model ChandrimERP.Models.EmployeePayrollPolicy
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmployeePayrollPolicy</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employees.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employees.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PpolicyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PpolicyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ppay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ppay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pstatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pstatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paccount)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

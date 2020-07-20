@@ -1,0 +1,111 @@
+﻿
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.18/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<h2>@ViewBag.Title</h2>
+
+
+<style>
+
+    .dataTables_filter input {
+        padding: 5px 2px;
+        border-radius: 5px;
+    }
+
+    #my_table {
+        overflow: scroll;
+    }
+
+    #my_table th {
+        background-color: #d2d6de;
+        color: black;
+    }
+</style>
+
+<table id="my_table" class="display">
+    <thead>
+        <tr>
+            <th>Item Code</th>
+            <th>Item Name</th>
+            <th>Supplier Name</th>
+            <th>Balance Quantity</th>
+            <th>Aleart Lavel</th>
+            <th>Item MRP</th>
+            <th>Item Unit Cost</th>
+            <th>Item Editional Cost</th>
+            <th>Item Total Cost</th>
+            <th>Item Barcode</th>
+            <th>Item Average Cost</th>
+            <th>Warehouse Name</th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $("#my_table").DataTable({
+                "ajax": {
+                    "url": "/Inventory/Inventorydatatwo",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                "columns": [
+
+                    { "data": "ItemCode" },
+                    { "data": "ItemName" },
+                    { "data": "SupplierName" },
+                    { "data": "BalanceQuantity" },
+                    { "data": "AleartLavel" },
+                    { "data": "ItemMRP" },
+                    { "data": "ItemUnitCost" },
+                    { "data": "ItemEditionalCost" },
+                    { "data": "ItemTotalCost" },
+                    { "data": "ItemBarCode" },
+                    { "data": "ItemAverageCost" },
+                    { "data": "WarehouseName" }
+                    //{
+                    //    "render": function (data, type, full, meta) {
+                    //        return '<a style="color:#00a65a;" href="/Products/Details/' + full.ProductId + '"><i class="fa fa-sign-in"></i>';
+                    //    }
+                    //}
+
+                ],
+                "dom": "lrBftip",
+                "buttons": [
+                    {
+                        extend: 'copy',
+                        className: 'Button',
+                        text: '<i class="fa fa-copy" aria-hidden="true"></i> Copy'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel'
+                    },
+                    {
+                        extend: 'pdf',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Pdf'
+                    },
+                    {
+                        extend: 'csv',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-text"></i> CSV'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'Button',
+                        text :'<i class="fa fa-print" aria-hidden="true"></i> Print'
+                    }
+                ]
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,111 @@
+﻿
+@model ChandrimERP.Models.DressModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .boxes {
+        color: #000;
+        display: none;
+    }
+
+    .cuscolor {
+        color: red;
+    }
+
+    .control-label {
+        margin-right: 15px;
+    }
+</style>
+<div class="container cus">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="card-style">
+                <div class="card-style-body">
+                    <div class="form-horizontal">
+                        <h4>Dress Models</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="col-md-12 text-center">
+                            @{
+                                var imagePath = "";
+                                imagePath = Url.Content(Model.ImageUrl);
+                            }
+                            @if (imagePath != "")
+                            {
+                                <img src="@imagePath" class="avatar img-thumbnail" alt="avatar" style="width: 100%; height: auto; margin-bottom: 20px;">
+                            }
+                            <div id="alert" style="width: 100%;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div style="float: left;" class="col-md-12">
+                                <input type="file" style="float: left; padding-left: 15px;" class="center-block file-upload" name="imageUpload" accept="image/*" id="file" data-file_types="png|jpg|jpeg" />
+                                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    <label class="control-label">Company</label>
+                                    @Html.DropDownList("CompanyId", null, "Select Your Company", htmlAttributes: new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 cus d-flex">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label"})
+                                @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                            </div>
+                            <div class="col-md-12 cus">
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("DressModelExist", new { @class = "text-danger" })
+                            </div>
+                                
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 cus d-flex">
+                                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div style="float: right;" class="col-md-offset-2 col-md-8">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-8 text-success">
+                                @ViewBag.UploadStatus
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+                                }
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            dressmodelsCreate();
+        });
+    </script>
+}
+

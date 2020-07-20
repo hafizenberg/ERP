@@ -1,0 +1,394 @@
+﻿
+@model ChandrimERP.Models.TailorOrderVM
+@{
+    ViewBag.Title = "Tailor Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .d-flex {
+        display: flex;
+    }
+
+    .just-center {
+        justify-content: center;
+    }
+
+    .just-end {
+        justify-content: flex-end;
+    }
+
+    .just-bet {
+        justify-content: space-between;
+    }
+
+    .just-start {
+        justify-content: flex-start;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card-style">
+        <div class="card-style-header">
+            Tailor Invoice
+        </div>
+        <div class="card-style-body">
+            <div class="row">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @Value = ViewBag.FirstName, @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control ", @Value = @ViewBag.UserName, @readonly = "readonly", @id = "username" } })
+                                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @id = "orderdate" } })
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-md-8">
+                                @Html.HiddenFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                <div style="display: flex; justify-content: space-between;">
+                                    @Html.DropDownList("CustomerID", null, "Select Customer", htmlAttributes: new { @class = "form-control customerList", @id = "customer" })
+                                    <button id="btnShowModal" type="button" class="fa fa-plus-circle fa-1x"></button>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LedgerId, "LedgerId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("LedgerId", null, htmlAttributes: new { @class = "form-control LedgerList" })
+                                @Html.ValidationMessageFor(model => model.LedgerId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @id = "duedate" } })
+                                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control BranchList", @id = "branch" })
+                                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.WarehouseId, "WarehouseId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("WarehouseId", null, htmlAttributes: new { @class = "form-control WarehouseList", @id = "warehouse" })
+                                @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "SalesAgentId", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SalesAgentId", null, htmlAttributes: new { @class = "form-control SalesAgentList" })
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesAgentId, "TailorList", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("TailorList", null, htmlAttributes: new { @class = "form-control SalesAgentList" })
+                                @Html.ValidationMessageFor(model => model.SalesAgentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Prevous Balance</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.LastOrderDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "closingbalance" } })
+                                @Html.ValidationMessageFor(model => model.LastOrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @id = "orderdate" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="d-flex just-bet">
+                            <label>Tul Long</label>
+                            <input type="text" value="" id="tul" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Arrad Body</label><br />
+                            <input type="text" value="" id="arrad" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Kocchor Waist</label><br />
+                            <input type="text" value="" id="kocchor" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Hip</label><br />
+                            <input type="text" value="" id="hip" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Khetab Shoulder</label><br />
+                            <input type="text" value="" id="khetab" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Ibad Mohra</label><br />
+                            <input type="text" value="" id="ibad" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Ordun Hand</label><br />
+                            <input type="text" value="" id="ordun" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Orgoba Throat</label><br />
+                            <input type="text" value="" id="orgoba" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Gher Enclorure</label><br />
+                            <input type="text" value="" id="gher" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Orgoba Throat</label><br />
+                            <input type="text" value="" id="throat" class="form-group" style="width: 50px; padding: 0px 5px;" />
+                        </div>
+                        <div class="">
+                            <label>Shelha (Yes/No)</label><br />
+                            @Html.EnumDropDownListFor(model => model.Shelha, htmlAttributes: new { @class = "form-control", @id = "shelha" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+
+                        <label>Ibad Mohra</label><br />
+                        @Html.EnumDropDownListFor(model => model.IbadMohra, htmlAttributes: new { @class = "form-control", @id = "mohra" })
+                        <div>
+                            <label>Select Model</label><br />
+                            @Html.DropDownList("dressModel", null, "Select Your Model", htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="d-flex just-bet">
+                            <label>Qty</label><br />
+                            <input type="text" value="" id="qntsw" class="form-group" style="width: 50px; padding:0px 5px;" onChange="totalAmountsw()" />
+                        </div>
+                        <div class="d-flex just-bet">
+                            <label>Rate</label><br />
+                            <input type="text" value="" id="totalsw" class="form-group" style="width: 50px; padding:0px 5px;" onChange="totalAmountsw()" />
+                        </div>
+                        <div>
+                            <label>Total Amount</label><br />
+                            <input type="text" value="" id="netAmountsw" class="form-group" readonly; style="width: 100%; padding: 0px 5px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex just-center" style="align-items:center; height:100px">
+
+                        <div style="padding: 10px;width:80%; text-align: center;">
+                            <button id="addToListsw" type="button" class="btn btn-basic" style="width: 100%; padding: 0px 5px ;">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <table id="seawingInvoiceDetails">
+                    <thead>
+                        <h1 class="text-center" style="font-weight: bold; text-transform: uppercase">Order Description Details</h1>
+                        <hr style="border-top: 1px solid black;" />
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Narration:</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" id="Narration" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Total Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control total", @readonly = "readonly", id = "TotalAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label ">Seawing Amount:</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly class="form-control totalsw" id="TotalAmountSW" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Less:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LessAmount, new { htmlAttributes = new { @class = "form-control lessAmount", onChange = "invoiceAmount()", @id = "LessAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Vat Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.VatAmount, new { htmlAttributes = new { @class = "form-control totalVAT", @readonly = "readonly", @id = "VatAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Add:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.AddAmount, new { htmlAttributes = new { @class = "form-control addAmount", onChange = "invoiceAmount()", @id = "AddAmount" } })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 control-label">Net Amount:</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.InvoicedAmount, new { htmlAttributes = new { @class = "form-control invoicedTotal", @readonly = "readonly", @id = "invoicedTotal" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-style-footer">
+            <div class="btn-group left">
+                <button type="button" class="btn btn-default ">@Html.ActionLink("Find", "SalesInvoiceReport")</button>
+                <button type="button" class="btn btn-default ">@Html.ActionLink("Report", "SalesInvoiceReport")</button>
+            </div>
+            <div class="btn-group right">
+                <button type="button" class="btn btn-default" id="saveOrder">Save</button>
+                <button type="button" class="btn btn-default "><a href="@Url.Action("Index", "Home")"><span>Close</span></a></button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" tabindex="-1" id="createCustomer"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card-style-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">Create New Customer</h4>
+            </div>
+            <div class="card-style-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.CompanyId, "CompanyId", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "CompanyId" })
+                            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContactFirstName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ContactFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContactLastName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ContactLastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactLastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label " })
+                            @Html.EnumDropDownListFor(model => model.Genders, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Genders, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.OpeningBlance, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.OpeningBlance, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OpeningBlance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.AddressLineOne, htmlAttributes: new { @class = "control-label " })
+                            @Html.EditorFor(model => model.AddressLineOne, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AddressLineOne, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="card-style-footer">
+                <div class="btn-group right">
+                    <button type="submit" class="btn btn-outline-primary button button4" id="saveCousromer">Create</button>
+                    <button type="button" id="btnHideModal" class="btn btn-outline-primary button button4"> Close </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            salesbooktailorSeawing();
+        });
+    </script>
+}
+

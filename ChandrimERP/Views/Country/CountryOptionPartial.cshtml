@@ -1,0 +1,9 @@
+﻿
+<option value="">Country</option>
+@if (ViewBag.CountryOption != null)
+{
+    foreach (var item in ViewBag.CountryOption)
+    {
+        <option value="@item.Value">@item.Text </option>
+    }
+}

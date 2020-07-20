@@ -1,0 +1,73 @@
+﻿@model ChandrimERP.Models.FixedAssetCategory
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="card-style">
+                    <div class="card-style-header">
+                        <h4>Create Fixed Asset Category</h4>
+                    </div>
+                    <div class="card-style-body">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.CompanyId, htmlAttributes: new {@class = "control-label"})
+                                    <div class="d-flex">
+                                        @Html.DropDownList("CompanyId", null, htmlAttributes: new {@class = "form-control"})
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CompanyId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.LedgerId, htmlAttributes: new { @class = "control-label" })
+                                    <div class="d-flex">
+                                        @Html.DropDownList("LedgerId", null, htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.LedgerId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                    <div class="d-flex">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("NameExist", new { @class = "text-danger" })
+                                </div>
+                               </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                    <div class="d-flex">
+                                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-style-footer">
+                        <div class="btn-group right">
+                            <input type="submit" value="Create" class="btn btn-outline-primary" />
+                        </div>
+                    </div>
+                    </div>
+                    }
+                </div>
+        <div class="col-md-3">
+
+        </div>
+      </div>
+</div>

@@ -1,0 +1,168 @@
+﻿@using GridMvc.Html
+@model IEnumerable<ChandrimERP.Models.Company>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genders)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WebPage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VatInformation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinancialYearStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BusinessType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyLogo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddressLineOne)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddressLineTwo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Islocked)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockedDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genders)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WebPage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VatInformation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinancialYearStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BusinessType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyLogo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddressLineOne)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddressLineTwo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Islocked)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockedDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>*@

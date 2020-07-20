@@ -1,0 +1,95 @@
+﻿@model ChandrimERP.Models.EmployeePersionalInfo
+@{
+    ViewBag.Title = "Add New Business";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .acc a {
+        padding: 8px;
+        text-decoration: none;
+        background-color: #00bfff;
+        color: #fff;
+        border-radius: 5px;
+        align-items: center;
+    }
+
+        .acc a:hover {
+            padding: 9px;
+            text-decoration: none;
+            background-color: #00bfff;
+            border-radius: 5px;
+            color: #000;
+        }
+</style>
+
+<div class="content-body">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal cusform">
+            <h4>Update Employee Personal Info</h4>
+            <hr style="border-top: 1px solid black; padding: 0px; margin: 0px;" />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
+            <div class="form-group">
+                <div class="col-md-12 inputGroupContainer">
+                    @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+                    <div class="d-flex">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.HomePhone, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.HomePhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.HomePhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.MobilePhone, htmlAttributes: new {@class = "control-label"})
+                    @Html.EditorFor(model => model.MobilePhone, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.MobilePhone, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.TinNumber, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.TinNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TinNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12 text-right">
+                    @Html.ActionLink("Back", "UpdateEmployee")
+                    <input type="submit" value="Update" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
+                    }
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            employeeEmployee();
+        });
+    </script>
+}
+

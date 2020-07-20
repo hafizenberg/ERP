@@ -1,0 +1,94 @@
+﻿@model ChandrimERP.Models.PserviceImage
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post,
+                     new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <h4>Service Image</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-8">
+                @Html.DropDownList("PServiceId",  null, "--Select Product--", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PServiceId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            @{
+                var imagePath = "";
+                imagePath = Url.Content(Model.ImageId);
+            }
+            @if (imagePath != "")
+            {
+                <img src="@imagePath" class="avatar img-thumbnail" alt="avatar" style="width: 80%; height: auto; margin-bottom: 20px;">
+            }
+            <div id="alert" style="width: 80%;"></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8">
+                <input type="file" class="text-center center-block file-upload" name="imageUpload" accept="image/*" id="file" data-file_types="png|jpg|jpeg" />
+                @Html.ValidationMessageFor(model => model.ImageId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script>
+        $('#file').on('change', function () {
+            var numb = $(this)[0].files[0].size / 1024 / 1024; //count file size
+            var resultid = $(this).val().split(".");
+            var gettypeup = resultid[resultid.length - 1]; // take file type uploaded file
+            var filetype = $(this).attr('data-file_types'); // take allowed files from input
+            var allowedfiles = filetype.replace(/\|/g, ', '); // string allowed file
+            var filesize = 2; //2MB
+            var onlist = $(this).attr('data-file_types').indexOf(gettypeup) > -1;
+            var checkinputfile = $(this).attr('type');
+            numb = numb.toFixed(2);
+            if (onlist && numb <= filesize) {
+                $('#alert').html('The file is ready to upload').removeAttr('class').addClass('xd2'); //file OK
+            } else {
+                if (numb >= filesize && onlist) {
+                    $(this).val(''); //remove uploaded file
+                    $('#alert').html('Added file is too big \(' + numb + ' MB\) - max file size ' + filesize + ' MB').removeAttr('class').addClass('xd'); //alert that file is too big, but type file is ok
+                } else if (numb < filesize && !onlist) {
+                    $(this).val(''); //remove uploaded file
+                    $('#alert').html('An not allowed file format has been added \(' + gettypeup + ') - allowed formats: ' + allowedfiles).removeAttr('class').addClass('xd'); //wrong type file
+                } else if (!onlist) {
+                    $(this).val(''); //remove uploaded file
+                    $('#alert').html('An not allowed file format has been added \(' + gettypeup + ') - allowed formats: ' + allowedfiles).removeAttr('class').addClass('xd'); //wrong type file
+                }
+            }
+        });
+        /* File upload preview*/
+        $(document).ready(function () {
+            var readUrl = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('.avatar').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $(".file-upload").on('change', function () {
+                readUrl(this);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ChandrimERP.Models.CompanyBranchWarehouse>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid grid = new WebGrid(source: Model, canSort: true);
+}
+
+<style>
+    th, td {
+        padding: 5px;
+    }
+
+    th {
+        background-color: rgb(248, 248, 248);
+    }
+
+    #gridT, #gridT tr {
+        border: 1px solid #0D857B;
+    }
+
+    .ChildGrid, .ChildGrid tr {
+        border: 1px solid #f3f3f3;
+    }
+
+    .ChildGrid {
+        margin: 0px 0px 0px 0px;
+        padding: 5px;
+        width: 100%;
+    }
+
+        .ChildGrid th {
+            font-size: 12px;
+        }
+
+    .hoverEff {
+        cursor: pointer;
+    }
+
+    .Grid img {
+        cursor: pointer;
+    }
+</style>
+<div style="float:right;padding-right: 25px;padding-bottom: 5px;padding-top: 10px;"><input type="text" id="search" placeholder="live search"></input></div>
+
+<div id="main" style="padding:25px; background-color:white;">
+    @grid.GetHtml(
+                htmlAttributes: new { id = "gridT", width = "100%", @class = "Grid" },
+                columns: grid.Columns(
+                     grid.Column(null, null, format: @<text><img class="img" src="~/Images/plus.png" /><div style="display:none; "></div></text>),
+                        grid.Column("company.CompanyName", "Company Name"),
+                        grid.Column("company.WebPage", "Business Website"),
+                        grid.Column("company.BusinessType", "Business Types"),
+                        grid.Column(header: "Activity",
+                            format: item =>
+                            {
+                                return item.company.Status ? "Active" : "In-Active";
+                            }),
+                        grid.Column(header: "Update", format: (item) => Html.ActionLink("Update", "UpdateCompany", new { id = item.company.Id })),
+                        grid.Column(format: (item) =>
+                        {
+                            WebGrid childGrid = new WebGrid(source: item.branch);
+                            return childGrid.GetHtml(
+                            htmlAttributes: new { @class = "ChildGrid" },
+                            columns: childGrid.Columns(
+                                    childGrid.Column("BranchName", "Branch Name"),
+                                    childGrid.Column("Address", "Address"),
+                                    childGrid.Column(header: "Activity",
+                                        format: item2 =>
+                                        {
+                                            return item2.Status ? "Active" : "In-Active";
+                                        }),
+                        grid.Column(header: "Update", format: (item2) => Html.ActionLink("Update", "UpdateBranch", new { id = item2.Id }))
+                            ));
+                        })
+                        ,
+                        grid.Column(format: (item) =>
+                        {
+                            WebGrid childGrid = new WebGrid(source: item.warehouse);
+                            return childGrid.GetHtml(
+                            htmlAttributes: new { @class = "ChildGrid" },
+                            columns: childGrid.Columns(
+                                    //childGrid.Column(null, null, item@<text><img class="img" src="~/Images/plus.png" /><div style="display:none; "></div></text>),
+                                    childGrid.Column("WarehouseName", "Warehouse Name"),
+                                    childGrid.Column("Address", "Address"),
+                                    childGrid.Column(header: "Activity",
+                                        format: item2 =>
+                                        {
+                                            return item2.Status ? "Active" : "In-Active";
+                                        }),
+                        grid.Column(header: "Update", format: (item2) => Html.ActionLink("Update", "UpdateWarehouse", new { id = item2.Id }))
+                            ));
+                        })
+                      
+                    )
+                )
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            businessIndex();
+        });
+    </script>
+}

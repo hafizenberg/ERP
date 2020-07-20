@@ -1,0 +1,172 @@
+﻿@model ChandrimERP.Models.SalesOrderVM
+@{
+    ViewBag.Title = "Sales Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <p>
+        Enter Barcode @Html.Editor("Barcode")
+    </p>
+<table id="detailsTable" class="table table-striped">
+    <thead>
+    <tr>
+        <th class="center">Barcode</th>
+        <th class="center">Name of Item</th>
+        <th class="center">Description</th>
+        <th class="center">Quantity</th>
+        <th class="center">MRP</th>
+        <th class="center">Total Rate</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group row">
+            <label class="col-md-4 control-label">Narration:</label>
+            <div class="col-md-8">
+                <textarea class="form-control" id="Narration" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group row">
+            <label class="col-md-4 control-label ">Total Quantity:</label>
+            <div class="col-md-8">
+                @Html.Editor("", new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 control-label ">Total Discount:</label>
+            <div class="col-md-8">
+                @Html.Editor("", new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group row">
+            <label class="col-md-4 control-label ">Total Amount:</label>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.NetTotalAmount, new { htmlAttributes = new { @class = "form-control total", @readonly = "readonly", id = "TotalAmount" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 control-label">Less:</label>
+            <div class="col-md-8">
+                @Html.Editor("", new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 control-label">Vat Amount:</label>
+            <div class="col-md-8">
+                @Html.Editor("", new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 control-label">Add:</label>
+            <div class="col-md-8">
+                @Html.Editor("", new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 control-label">Net Amount:</label>
+            <div class="col-md-8">
+                @Html.Editor("", new { htmlAttributes = new { @class = "form-control totalQNT", @readonly = "readonly", @id = "totalQNT" } })
+            </div>
+        </div>
+    </div>
+</div>
+@*$(document).on('focusout','#item', function() {*@
+@section Scripts{
+    <script>
+        var detailsTableBody = $("#detailsTable tbody");
+        var productquantity = 1;
+        $("#Barcode").change(function() {
+            $.ajax({
+                url: "/Salesbook/getProductsList?barcode=" + $('#Barcode').val().toString(),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                error: function(data) {
+                    alert(data.responseText);
+                },
+                success: function(data) {
+                    $("#Barcode").val('');
+                    var value2 = $('#' + data[0].ProductCode + '').html();
+                    var value3 = $('.' + data[0].ProductCode + '').html();
+                    if (isNaN(value2) || value2 == "") {
+                        var productItem = '<tr><td>' + data[0].Barcode + '</td><td>' + data[0].ProductName + '</td><td>' + data[0].ProductDescription + '</td><td id="' + data[0].ProductCode + '">' + productquantity + '</td><td>' + data[0].ProductPrice + '</td><td class="' + data[0].ProductCode + '">' + data[0].ProductPrice + '</td><td><div class="btn-group">'
+                        + '<button  data-itemId="0"  type="button" class="deleteItem btn btn-default glyphicon glyphicon-remove"></button>'
+                        + '</div></td></tr>';
+                        detailsTableBody.append(productItem);
+                        $("#Barcode").val('');
+                    } else {
+                        if (value2 >= 1) {
+                            $('#' + data[0].ProductCode + '').html(parseInt(parseInt(value2) + 1));
+                            $('.' + data[0].ProductCode + '').html(parseFloat(value3) + data[0].ProductPrice);
+                        }
+                    }
+                    invoiceAmount();
+                }
+            });
+        });
+        $(document).on('click', 'button.deleteItem', function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            if ($(this).attr('data-itemId') == "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                    invoiceAmount();
+                });
+            }
+        });
+        function invoiceAmount() {
+            var sumVal = 0;
+            var sumValqnt = 0;
+            var sumDiscount = 0;
+            var sumValBonusqnt = 0;
+            var vatAmount = 0;
+            var table = document.getElementById("detailsTable");
+            for (var i = 1; i < table.rows.length; i++) {
+                sumVal = sumVal + parseFloat(table.rows[i].cells[5].innerHTML);
+            }
+            alert(sumVal);
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    sumValqnt = sumValqnt + parseFloat(table.rows[i].cells[3].innerHTML);
+            //}
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    sumDiscount = sumDiscount + parseFloat(table.rows[i].cells[7].innerHTML);
+            //}
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    sumValBonusqnt = sumValBonusqnt + parseFloat(table.rows[i].cells[10].innerHTML);
+            //}
+            //for (var i = 1; i < table.rows.length; i++) {
+            //    vatAmount = vatAmount + parseFloat(table.rows[i].cells[11].innerHTML);
+            //}
+            //sumValqnt = sumValqnt + sumValBonusqnt;
+            $(".total").val(sumVal);
+            //$(".totalQNT").val(sumValqnt);
+            //$(".totalDiscount").val(sumDiscount);
+            //$(".totalVAT").val(vatAmount);
+            if (isNaN($(".total").val()) || $.trim($(".total").val()) == "") {
+                $(".total").val(0);
+            }
+            if (isNaN($(".totalVAT").val()) || $.trim($(".totalVAT").val()) == "") {
+                $(".totalVAT").val(0);
+            }
+            if (isNaN($(".addAmount").val()) || $.trim($(".addAmount").val()) == "") {
+                $(".addAmount").val(0);
+            }
+            if (isNaN($(".lessAmount").val()) || $.trim($(".lessAmount").val()) == "") {
+                $(".lessAmount").val(0);
+            }
+            var invoicedTotal = (parseFloat($(".total").val()) + parseFloat($(".totalVAT").val()) + parseFloat($(".addAmount").val())).toFixed(2) - parseFloat($(".lessAmount").val()).toFixed(2)
+            $(".invoicedTotal").val(invoicedTotal);
+        }
+    </script>
+}
+   
+    
+

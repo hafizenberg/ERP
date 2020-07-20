@@ -1,0 +1,185 @@
+﻿@model ChandrimERP.Models.Employee
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .pagesize {
+        width: 18.5cm;
+        margin: auto;
+    }
+
+    .details {
+        padding: 0px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .details .title {
+            color: #000080;
+            font-size: 17px;
+            font-family: consolas;
+        }
+
+        .details .title2 {
+            color: #000080;
+            font-size: 15px;
+            font-family: comic sans ms;
+        }
+
+        .details .desc {
+            font-weight: bold;
+            padding-left: 15px;
+            font-size: 17px;
+        }
+
+        .details .desc2 {
+            font-weight: bold;
+            color: White;
+            padding-right: 10px;
+            font-size: 15px;
+        }
+
+    .detailsheader h2 {
+        margin: 0px;
+    }
+
+    .detailscol {
+        padding: 15px;
+    }
+
+    .details .img {
+        width: 300px;
+        height: auto;
+    }
+
+    .chart1 .imgs {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .chart1 {
+        width: 6cm;
+        float: left;
+        padding: 15px;
+        height: 100%;
+        background-color: #9bafde;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+    }
+
+    .chart2 {
+        padding: 15px;
+        width: 10cm;
+        float: left;
+        margin-left: 6cm;
+        min-height: 500px;
+    }
+
+    .chart1 h4 {
+        text-align: center;
+    }
+</style>
+<div class="pagesize">
+    <div class="card-style">
+        <div class="card-style-body details">
+            <div class="chart1">
+                <div>
+                    @if (Model.ImageUrl == null)
+                    {
+                        <img src="~/Image/Employee/user.png" class="user-image img-circle imgs" alt="User Image">
+                    }
+                    else
+                    {
+                        var imagePath = "";
+                        imagePath = Url.Content(Model.ImageUrl);
+
+                        if (imagePath != "")
+                        {
+                            <img src="@imagePath" class="user-image img-circle imgs" alt="User Image">
+                        }
+                    }
+                </div>
+                <h4 class="title2">Company-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.Company.CompanyName)</h4>
+                <h4 class="title2">Employee Code-</h4>
+                <h4 class="desc2">@Html.DisplayFor(model => model.EmployeeCode)</h4>
+                <h4 class="title2">EmployeeName-</h4>
+            </div>
+
+            <div class="chart2">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.EmailAddress)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.EmailAddress)</td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.JobTitle)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.JobTitle)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.BussinessPhone)</td>
+                            <td class="desc">@Html.DisplayFor(model => model.BussinessPhone)</td>
+                        </tr>
+                        <tr>
+                            <td class="title">@Html.DisplayNameFor(model => model.Notes)</td>
+                            <td class="desc">@Html.DisplayNameFor(model => model.Notes)</td>
+                        </tr>
+                        @*<tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.Phone)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.Phone)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.Email)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.WebPage)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.WebPage)</td>
+                            </tr>
+
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.Country))</td>
+                                <td class="desc">@Html.DisplayFor(model => model.Country)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.State)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.State)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.City)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.City)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.AddressLineOne)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.AddressLineOne)</td>
+                            </tr>
+
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.AddressLineTwo)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.AddressLineTwo)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.OrderDate)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.OrderDate)</td>
+                            </tr>
+                            <tr>
+                                <td class="title">@Html.DisplayNameFor(model => model.Notes)</td>
+                                <td class="desc">@Html.DisplayFor(model => model.Notes)</td>
+                            </tr>*@
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

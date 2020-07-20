@@ -1,0 +1,163 @@
+﻿@model ChandrimERP.Models.Ledger
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ledger</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LedgerCategory.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LedgerCategory.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentLedgerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentLedgerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EffectInventory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EffectInventory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EffectPayrool)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EffectPayrool)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpeningBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpeningBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Islocked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Islocked)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LockedDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LockedDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefNo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

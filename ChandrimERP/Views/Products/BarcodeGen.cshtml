@@ -1,0 +1,34 @@
+﻿@model ChandrimERP.Models.Product
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<page size="A4">
+
+    <div style="display:flex; flex-wrap: wrap;text-align: center; ">
+        @for (var i = 0; i < @ViewBag.Quantity; i++)
+            {
+            <div style="background-color: white; padding: 10px;">
+                <div class="desc" style="font-size: 9px; margin-bottom: 0px;">@Html.DisplayFor(model => model.Company.CompanyName)</div>
+                <div class="desc" style="font-size: 9px;margin-bottom: 5px; ">@Html.DisplayFor(model => model.ProductName)</div>
+                <span class="desc barcode" style="padding: 10px 0px;">*@Html.DisplayFor(model => model.Barcode)*</span><br />
+                <div class="desc" style="margin-bottom: -5px;font-size: 10px;">@Html.DisplayFor(model => model.Barcode)</div>
+                <span class="title "><strong style="font-size: 10px;">MRP</strong></span>
+                <span class="desc" style="font-size: 10px;"> <strong>@Html.DisplayFor(model => model.ProductPrice)</strong> </span>
+            </div>
+        }
+    </div>
+    <div class="d-none-p">
+        <div class="card-style-footer">
+            <div class="btn-group right">
+                <button type="submit" class="btn btn-outline-primary button"> @Html.ActionLink("Back to List", "BarcodeIndex")</button>
+                <button type="button" onclick="print()" class="btn btn-outline-primary button button4"> Print </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</page>
+
+
+
+

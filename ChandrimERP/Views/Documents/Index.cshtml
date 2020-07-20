@@ -1,0 +1,214 @@
+﻿
+<style>
+    .dataTables_length label {
+        margin-top: 15px;
+        color: #000080;
+    }
+
+    .Button {
+        padding: 5px 10px;
+        margin: 5px;
+        background-color: #4b0082;
+        color: White;
+        border-radius: 15%;
+    }
+
+    .Button:hover {
+        background-color: #00bfff;
+        color: white;
+    }
+
+    .table-1 {
+        color: #00008b;
+        font-weight: bold;
+        float: left;
+    }
+
+    .table-1 tr {
+        float: left;
+    }
+
+    .dataTables_filter input {
+        padding: 5px 2px;
+        border-radius: 5px;
+    }
+
+    #my_table th {
+        background-color: #b2b6be;
+        color: black;
+    }
+
+    .dt-buttons {
+        float: left;
+    }
+    #my_table img {
+        width: 30px;
+        height: 30px;
+    }
+</style>
+
+<table class="table-1">
+    <tbody>
+        <tr>
+            <td>From Date:</td>
+            <td><input name="min" id="min" type="text"></td>
+        </tr>
+        <tr>
+            <td>To Date:</td>
+            <td><input name="max" id="max" type="text"></td>
+        </tr>
+    </tbody>
+</table>
+<table id="my_table" class="display">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Document Name</th>
+            <th>Document Code</th>
+            <th>Document Details</th>
+            <th>Document Access Count</th>
+            <th>Expire Date</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.18/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+@section scripts{
+    <script src="~/Content/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#my_table").DataTable({
+                "ajax": {
+                    "url": "/Documents/GetDocumentList",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "D_image",
+                        "render": function (data, type, row) {
+                            var img = data;
+                            var res = img.substring(2);
+                            var url = '@Url.Content("~/")';
+                            return '<img src="' + url + res + '"/>';
+                        }
+                    },
+                    { "data": "D_name" },
+                    { "data": "D_code" },
+                    { "data": "D_details" },
+                    { "data": "D_acc_count" },
+                    {
+                        "data": "D_Exp",
+                        "type": "date ",
+                        "render": function (value) {
+                            if (value === null) return "";
+
+                            var pattern = /Date\(([^)]+)\)/;
+                            var results = pattern.exec(value);
+                            var dt = new Date(parseFloat(results[1]));
+
+                            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a style="color:#00a65a;" href="/Documents/Details/' + full.D_id + '"><i class="fa fa-sign-in"></i>';
+                        }
+                    }
+                ],
+                //"order": [[6, 'asc']],
+                "dom": "lrBftip",
+                "buttons": [
+                    {
+                        extend: 'copy',
+                        className: 'Button',
+                        text: '<i class="fa fa-copy" aria-hidden="true"></i> Copy'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel'
+                    },
+                    {
+                        extend: 'pdf',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Pdf'
+                    },
+                    {
+                        extend: 'csv',
+                        className: 'Button',
+                        text: '<i class="fa fa-file-text"></i> CSV'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'Button',
+                        title: '',
+                        text: '<i class="fa fa-print" aria-hidden="true"></i> Print',
+                        message: '<h2 style="text-align: center; color: blue;">ChandrimSoft</h2><h4 style="text-align: center;">Location: paragon city</h4>',
+                        customize: function (win) { $(win.document.body).css('font-size', '10pt').prepend('<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:300; left:200;" />'); $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit'); }
+                    }
+                ]
+            });
+            //var min = $('#min').datepicker("getDate");
+            //var max = $('#max').datepicker("getDate");
+            });
+                $(document).on('change', '#min', function(e) {
+                    e.preventDefault();
+                    if (!isNaN($("#min").val()) || $("#min").val() !== "") {
+                        dateFix();
+                    };
+                });
+
+
+                function dateFix() {
+                    $.fn.dataTable.ext.search.push(
+                        function(settings, data, dataIndex) {
+                            var min = $('#min').datepicker("getDate");
+                            var max = $('#max').datepicker("getDate");
+                            var startDate = new Date(data[5]);
+                            if (isNaN(min) || min == "") {
+                                return true;
+                            }
+                            if (isNaN(max) || max == "") {
+                                return true;
+                            }
+                            if (min == null && max == null) {
+                                return true;
+                            }
+                            if (min == null && startDate <= max) {
+                                return true;
+                            }
+                            if (max == null && startDate >= min) {
+                                return true;
+                            }
+                            if (startDate <= max && startDate >= min) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    );
+
+
+                    $("#min").datepicker({ onSelect: function() { table.draw(); }, changeMonth: true, changeYear: true });
+                    $("#max").datepicker({ onSelect: function() { table.draw(); }, changeMonth: true, changeYear: true });
+                    var table = $('#my_table').DataTable();
+
+                    // Event listener to the two range filtering inputs to redraw on input
+                    $('#min, #max').change(function() {
+                        table.draw();
+                    });
+                };
+    </script>
+}
